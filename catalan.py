@@ -1,5 +1,5 @@
 import time
-import binomial
+import combinatorics
 
 def catalan_recursive(n):
     if n < 0:
@@ -33,7 +33,7 @@ def catalan_dp(n):
 
 
 def catalan_closed_form(n):
-    return binomial.n_choose_k(2*n,n) // (n+1)
+    return combinatorics.n_choose_k(2*n,n) // (n+1)
 
 
 def main():

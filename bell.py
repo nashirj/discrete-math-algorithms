@@ -1,4 +1,4 @@
-import binomial
+import combinatorics
 import time
 
 def bell_recursive(n):
@@ -9,7 +9,7 @@ def bell_recursive(n):
     bn = 0
     for k in range(1, n+1):
         bn_k = bell_recursive(n-k)
-        bn += binomial.n_choose_k(n-1,k-1) * bn_k
+        bn += combinatorics.n_choose_k(n-1,k-1) * bn_k
     return bn
 
 
@@ -25,7 +25,7 @@ def bell_dp(n):
     bn = 0
     for k in range(1, n+1):
         bn_k = bell_vals[n-k] if len(bell_vals) > n-k else bell_dp(n-k)
-        bn += binomial.n_choose_k(n-1,k-1) * bn_k
+        bn += combinatorics.n_choose_k(n-1,k-1) * bn_k
     bell_vals.append(bn)
 
     return bell_vals[n]

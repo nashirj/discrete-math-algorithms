@@ -1,7 +1,7 @@
 import time
 import sets
 import bell
-import binomial
+import combinatorics
 
 def _get_all_pairs_with_same_first_elem(relation, val):
     return [(a, b) for a,b in relation if a == val]
@@ -40,7 +40,7 @@ def count_symmetric_relations(n):
 
 
 def count_antisymmetric_relations(n):
-    return (2**n)*(3**(binomial.n_choose_k(n,2)))
+    return (2**n)*(3**(combinatorics.n_choose_k(n,2)))
 
 
 def count_equivalence_relations(n):
