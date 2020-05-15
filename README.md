@@ -14,7 +14,6 @@
 - [x] Permutations with repetition
 - [x] Combinations with repetition
 - [x] Generate all bit strings of length n
-- [ ] Generate all alphabetic strings of length n
 - [x] Generate all permutations of a string
 
 
