@@ -3,7 +3,7 @@
 ### Recurrence Relations and Dynamic Programming (each of these has a DP implementation)
 - [x] Bell numbers
 - [x] Catalan numbers
-- [ ] Fibonacci sequence
+- [x] Fibonacci sequence
 - [ ] Stirling numbers of the first kind
 - [ ] Stirling numbers of the second kind
 
@@ -13,8 +13,9 @@
 - [x] N pick k
 - [x] Permutations with repetition
 - [x] Combinations with repetition
-- [ ] Generate all bit strings of length n
+- [x] Generate all bit strings of length n
 - [ ] Generate all alphabetic strings of length n
+- [x] Generate all permutations of a string
 
 
 ### Set operations
