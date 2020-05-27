@@ -2,15 +2,23 @@ import math
 # from typing import
 
 def n_choose_k(n,k):
+    if n <= k:
+        return 1
     return math.factorial(n)//(math.factorial(n-k) * math.factorial(k))
 
 def n_pick_k(n,k):
+    if n < k:
+        return 1
     return math.factorial(n)//math.factorial(n-k)
 
 def n_choose_k_repetition_allowed(n,k):
+    if n <= k:
+        return 1
     return n_choose_k(n+k-1,k)
 
 def n_pick_k_repetition_allowed(n,k):
+    if n < k:
+        return 1
     return n**k
 
 def _generate_permutations(n, s, pos, strs, char_set, repetition_allowed):

@@ -12,10 +12,10 @@ def generate_power_set(elements):
     return power_set
 
 
-def generate_cartesian_product_n_elements(n):
-    elements = []
-    for i in range(1,n+1):
-        for j in range(1,n+1):
-            elements.append((i, j))
+def generate_cartesian_product(elements):
+    res = []
+    for i in range(len(elements)):
+        for j in range(len(elements)):
+            res.append((elements[i], elements[j]))
 
-    return elements
+    return res
