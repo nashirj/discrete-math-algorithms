@@ -35,5 +35,5 @@
 
 ### Misc
 - [ ] Automatically solve recurrence relations with constant coefficients
-- [ ] Implement visualization
+- [ ] Implement GUI
 - [ ] Print Pascal's triangle
