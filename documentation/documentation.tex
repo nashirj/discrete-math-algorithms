@@ -1,0 +1,66 @@
+\documentclass{article}
+
+% set font encoding for PDFLaTeX, XeLaTeX, or LuaTeX
+\usepackage{ifxetex,ifluatex,amsmath,amsfonts,amssymb,graphicx}
+\if\ifxetex T\else\ifluatex T\else F\fi\fi T%
+  \usepackage{fontspec}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+\fi
+
+\usepackage{hyperref}
+
+% Nashir's includes
+% end includes
+
+\title{Final Project Documentation}
+\author{Nashir Janmohamed}
+\date{Due 11:59 pm, Monday, May 25}
+
+% Enable SageTeX to run SageMath code right inside this LaTeX file.
+% http://doc.sagemath.org/html/en/tutorial/sagetex.html
+% \usepackage{sagetex}
+
+% Enable PythonTeX to run Python – https://ctan.org/pkg/pythontex
+% \usepackage{pythontex}
+
+\begin{document}
+\maketitle
+
+
+\section{Recurrence Relations/Dynamic Programming}
+\subsection{Bell numbers}
+The Bell numbers represent the number of ways to count partitions of (or equivalently equivalence relations on) an $n$ element set. The $n$-th bell number is given by the recurrence
+\[B_n = \sum_{k=1}^{n} {n-1 \choose k-1} B_{n-k}\]
+\subsection{Catalan numbers}
+\subsection{Fibonacci numbers}
+\subsection{Stirling numbers of the first kind}
+\subsection{Stirling numbers of the second kind}
+
+\section{Permutations and Combinations}
+\subsection{n choose k}
+\subsection{n pick k}
+\subsection{n choose k, repetition allowed}
+\subsection{n pick k, repetition allowed}
+\subsection{Generate permutations of a string}
+\subsection{Generate all bit strings of length n}
+
+\section{Relations}
+\subsection{\# of relations}
+\subsection{\# of transitive relations}
+\subsection{\# of (ir)reflexive relations}
+\subsection{\# of symmetric relations}
+\subsection{\# of antisymmetric relations}
+\subsection{\# of equivalence relations}
+
+\section{Sets}
+\subsection{Generate power set}
+\subsection{Generate cartesian product}
+
+\section{Default}
+No documentation provided.
+
+
+\end{document}
