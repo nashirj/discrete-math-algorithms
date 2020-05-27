@@ -31,10 +31,6 @@ def count_reflexive_relations(n):
     return 2**(n*(n-1))
 
 
-def count_irreflexive_relations(n):
-    return 2**(n*(n-1))
-
-
 def count_symmetric_relations(n):
     return 2**((n*(n+1))//2)
 
