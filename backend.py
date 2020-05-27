@@ -10,7 +10,7 @@ import sets
 all_functions = {
     'Bell numbers' : [bell.bell_dp, 'bell_doc.png'],
     'Catalan numbers' : [catalan.catalan_dp, None],
-    'Fibonacci numbers' : [fib.fibonacci_dp, None],
+    'Fibonacci numbers' : [fib.fibonacci_dp, 'fib_doc.png'],
     'n choose k' : [combinatorics.n_choose_k, None],
     'n pick k' : [combinatorics.n_pick_k, None],
     'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, None],
@@ -28,20 +28,20 @@ all_functions = {
 }
 
 functions_with_int_parameters = {
-    'Bell numbers',
-    'Catalan numbers',
-    'Fibonacci numbers',
-    'n choose k',
-    'n pick k',
-    'n choose k repetition allowed',
-    'n pick k repetition allowed',
-    'generate all bit strings of length n',
-    'number of transitive relations',
-    'number of relations',
-    'number of reflexive/irreflexive relations',
-    'number of symmetric relations',
-    'number of antisymmetric relations',
-    'number of equivalence relations'
+    'Bell numbers' : 1,
+    'Catalan numbers' : 1,
+    'Fibonacci numbers' : 1,
+    'n choose k' : 2,
+    'n pick k' : 2,
+    'n choose k repetition allowed' : 2,
+    'n pick k repetition allowed' : 2,
+    'generate all bit strings of length n' : 1,
+    'number of transitive relations' : 1,
+    'number of relations' : 1,
+    'number of reflexive/irreflexive relations' : 1,
+    'number of symmetric relations' : 1,
+    'number of antisymmetric relations' : 1,
+    'number of equivalence relations' : 1
 }
 
 function_img = "graphAutos.png"

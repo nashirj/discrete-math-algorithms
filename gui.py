@@ -33,7 +33,6 @@ def change_dropdown(*args):
 # link function to change dropdown
 tkvar.trace('w', change_dropdown)
 
-
 tk.Label(mainframe, text="Enter comma separated inputs here (i.e. 5, 20)").grid(row=3,column=1)
 e1 = tk.Entry(mainframe)
 e1.grid(row=4,column=1)
@@ -51,10 +50,15 @@ def compute():
         except:
             res.config(text=f"Expected integer inputs, please try again")
             return
+        expected_num_params = backend.functions_with_int_parameters[tkvar.get()]
+        if len(args) != expected_num_params:
+            res.config(text=f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''},\
+                not {len(args)} input{'s' if len(args) != 1 else ''}")
+            return
         result = function(*args)
     else:
         result = function(args)
-    res.config(text=f"For {'input' if len(user_in) <= 1 else 'inputs'} {', '.join(user_in)}, {tkvar.get()} is\n{result}")
+    res.config(text=f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {tkvar.get()} is\n{result}")
 
     img_path = choice[1] if choice[1] else 'default.png'
     img = Image.open(img_path)
@@ -69,8 +73,15 @@ def compute():
     panel.image = img
 
 img_path = "placeholder.png"
-#Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
-img = ImageTk.PhotoImage(Image.open(img_path))
+
+img = Image.open(img_path)
+
+zoom = .5
+
+#multiple image size by zoom
+pixels_x, pixels_y = tuple([int(zoom * x)  for x in img.size])
+
+img = ImageTk.PhotoImage(img.resize((pixels_x, pixels_y)))
 
 #The Label widget is a standard Tkinter widget used to display a text or image on the screen.
 panel = tk.Label(mainframe, image = img)
