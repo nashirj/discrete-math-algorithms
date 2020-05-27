@@ -2,17 +2,13 @@
 # from tkinter import *
 import tkinter as tk
 
-# include functions to compute vals
-import bell
-import catalan
-import combinatorics
-import fib
-import relations
-import sets
+import backend
 
+# display images/documentation about functions
+from PIL import ImageTk, Image
 
 top = tk.Tk()
-top.geometry("600x400")
+top.attributes("-fullscreen", True)
 
 # Add a grid
 mainframe = tk.Frame(top)
@@ -24,29 +20,9 @@ mainframe.pack(pady = 100, padx = 100)
 # Create a Tkinter variable
 tkvar = tk.StringVar(top)
 
-# Dictionary with options
-choices = {
-    'Bell numbers' : bell.bell_dp,
-    'Catalan numbers' : catalan.catalan_dp,
-    'Fibonacci numbers' : fib.fibonacci_dp,
-    'n choose k' : combinatorics.n_choose_k,
-    'n pick k' : combinatorics.n_pick_k,
-    'n choose k repetition allowed' : combinatorics.n_choose_k_repetition_allowed,
-    'n pick k repetition allowed' : combinatorics.n_pick_k_repetition_allowed,
-    'generate permutations of a string' : combinatorics.generate_permutations,
-    'generate all bit strings of length n' : combinatorics.generate_bit_strings_of_length_n,
-    'number of transitive relations' : relations.count_transitive_relations,
-    'number of relations' : relations.count_relations,
-    'number of reflexive/irreflexive relations' : relations.count_reflexive_relations,
-    'number of symmetric relations' : relations.count_symmetric_relations,
-    'number of antisymmetric relations' : relations.count_antisymmetric_relations,
-    'number of equivalence relations' : relations.count_equivalence_relations,
-    'generate power set' : sets.generate_power_set,
-    'generate cartesian product' : sets.generate_cartesian_product_n_elements
-    }
 tkvar.set('<select an option here>') # set the default option
 
-popupMenu = tk.OptionMenu(mainframe, tkvar, *choices)
+popupMenu = tk.OptionMenu(mainframe, tkvar, *backend.all_functions)
 tk.Label(mainframe, text="Choose something to compute").grid(row = 1, column = 1)
 popupMenu.grid(row = 2, column =1)
 
@@ -66,11 +42,41 @@ res = tk.Label(mainframe, text="")
 res.grid(row=6,column=1)
 
 def compute():
-    function = choices[tkvar.get()]
-    args = e1.get().split(',')
-    args = [int(i) for i in args]
-    result = function(*args)
-    res.config(text=f"result is {result}")
+    choice = backend.all_functions[tkvar.get()]
+    function = choice[0]
+    user_in = [foo.strip() for foo in e1.get().split(',')]
+    if tkvar.get() in backend.functions_with_int_parameters:
+        try:
+            args = [int(i) for i in user_in]
+        except:
+            res.config(text=f"Expected integer inputs, please try again")
+            return
+        result = function(*args)
+    else:
+        result = function(args)
+    res.config(text=f"For {'input' if len(user_in) <= 1 else 'inputs'} {', '.join(user_in)}, {tkvar.get()} is\n{result}")
+
+    img_path = choice[1] if choice[1] else 'default.png'
+    img = Image.open(img_path)
+
+    zoom = .5
+
+    #multiple image size by zoom
+    pixels_x, pixels_y = tuple([int(zoom * x)  for x in img.size])
+
+    img = ImageTk.PhotoImage(img.resize((pixels_x, pixels_y)))
+    panel.configure(image=img)
+    panel.image = img
+
+img_path = "placeholder.png"
+#Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
+img = ImageTk.PhotoImage(Image.open(img_path))
+
+#The Label widget is a standard Tkinter widget used to display a text or image on the screen.
+panel = tk.Label(mainframe, image = img)
+
+#The Pack geometry manager packs widgets in rows or columns.
+panel.grid(row=7,column=1)
 
 B = tk.Button(mainframe, text = "Compute", command = compute)
 B.grid(row=5,column=1)
@@ -79,4 +85,6 @@ top.mainloop()
 
 
 
-# master.mainloop()
+
+
+

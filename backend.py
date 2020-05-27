@@ -1,0 +1,47 @@
+# include functions to compute vals
+import bell
+import catalan
+import combinatorics
+import fib
+import relations
+import sets
+
+# First item in value is function, second is documentation (png)
+all_functions = {
+    'Bell numbers' : [bell.bell_dp, 'bell_doc.png'],
+    'Catalan numbers' : [catalan.catalan_dp, None],
+    'Fibonacci numbers' : [fib.fibonacci_dp, None],
+    'n choose k' : [combinatorics.n_choose_k, None],
+    'n pick k' : [combinatorics.n_pick_k, None],
+    'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, None],
+    'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, None],
+    'generate permutations of a string' : [combinatorics.generate_permutations, None],
+    'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, None],
+    'number of transitive relations' : [relations.count_transitive_relations, None],
+    'number of relations' : [relations.count_relations, None],
+    'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, None],
+    'number of symmetric relations' : [relations.count_symmetric_relations, None],
+    'number of antisymmetric relations' : [relations.count_antisymmetric_relations, None],
+    'number of equivalence relations' : [relations.count_equivalence_relations, None],
+    'generate power set' : [sets.generate_power_set, None],
+    'generate cartesian product' : [sets.generate_cartesian_product, None]
+}
+
+functions_with_int_parameters = {
+    'Bell numbers',
+    'Catalan numbers',
+    'Fibonacci numbers',
+    'n choose k',
+    'n pick k',
+    'n choose k repetition allowed',
+    'n pick k repetition allowed',
+    'generate all bit strings of length n',
+    'number of transitive relations',
+    'number of relations',
+    'number of reflexive/irreflexive relations',
+    'number of symmetric relations',
+    'number of antisymmetric relations',
+    'number of equivalence relations'
+}
+
+function_img = "graphAutos.png"
