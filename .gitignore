@@ -1,1 +1,8 @@
+# python generated files
 __pycache__/
+
+# tex files
+*.aux
+*.log
+*.out
+*.synctex.gz
