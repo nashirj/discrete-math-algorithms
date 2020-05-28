@@ -38,13 +38,13 @@ def _generate_permutations(n, s, pos, strs, char_set, repetition_allowed):
         _generate_permutations(n, s, pos+1, strs, char_set, repetition_allowed)
         char_set[i] = s[pos]
 
-def generate_permutations(s, repetition_allowed=False):
+def generate_permutations(s):
     strs = []
-    _generate_permutations(len(s), list(s), 0, strs, list(s), repetition_allowed)
+    _generate_permutations(len(s), list(s), 0, strs, list(s), False)
     strs.sort()
 
     # if char_set has duplicates or repetititon allowed, remove duplicates
-    if len(s) != len(set(s)) or repetition_allowed:
+    if len(s) != len(set(s)):
         strs = list(set(strs))
 
     return strs
