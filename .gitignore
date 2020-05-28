@@ -5,6 +5,7 @@ build/
 
 # CLion files
 .idea/
+cmake-build-debug/
 
 # tex files
 *.aux
