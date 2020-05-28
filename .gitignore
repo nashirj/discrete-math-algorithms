@@ -1,6 +1,10 @@
 # python generated files
 __pycache__/
 venv/
+build/
+
+# CLion files
+.idea/
 
 # tex files
 *.aux
