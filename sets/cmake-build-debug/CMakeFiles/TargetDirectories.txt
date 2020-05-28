@@ -1,3 +1,0 @@
-/home/ariel/Documents/School/Assignments/Math10/Project/discrete-math-algorithms/sets/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/ariel/Documents/School/Assignments/Math10/Project/discrete-math-algorithms/sets/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/ariel/Documents/School/Assignments/Math10/Project/discrete-math-algorithms/sets/cmake-build-debug/CMakeFiles/sets.dir
