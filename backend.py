@@ -18,11 +18,11 @@ all_functions = {
     'generate permutations of a string' : [combinatorics.generate_permutations, None],
     'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, None],
     'number of transitive relations' : [relations.count_transitive_relations, 'trans_doc.png'],
-    'number of relations' : [relations.count_relations, None],
-    'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, None],
-    'number of symmetric relations' : [relations.count_symmetric_relations, None],
-    'number of antisymmetric relations' : [relations.count_antisymmetric_relations, None],
-    'number of equivalence relations' : [relations.count_equivalence_relations, None],
+    'number of relations' : [relations.count_relations, 'rel_doc.png'],
+    'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, 'refl_rel_doc.png'],
+    'number of symmetric relations' : [relations.count_symmetric_relations, 'sym_rel_doc.png'],
+    'number of antisymmetric relations' : [relations.count_antisymmetric_relations, 'antisym_rel_doc.png'],
+    'number of equivalence relations' : [relations.count_equivalence_relations, 'equiv_rel_doc.png'],
     'generate power set' : [sets.generate_power_set, None],
     'generate cartesian product' : [sets.generate_cartesian_product, None]
 }
@@ -55,7 +55,7 @@ def build_output_string(user_in, function_name, result, time):
     
     out1 = f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is"
     out2 = f"Computation took --- {time} seconds ---"
-    return f"{out1}\n{''.join(new_res)}\n{out2}"
+    return f"{out1}\n{''.join(new_res)}{out2}"
 
 def build_error_string(expected_num_params, actual_num_params):
     return f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''}, not {actual_num_params} input{'s' if actual_num_params != 1 else ''}"

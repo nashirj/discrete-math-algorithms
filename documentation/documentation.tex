@@ -13,6 +13,7 @@
 \usepackage{hyperref}
 
 % Nashir's includes
+\usepackage{commath}
 % end includes
 
 \title{Final Project Documentation}
@@ -68,6 +69,9 @@ Permutations with repetition are ordered arrangements of $k$ elements from a set
 
 \section{Relations}
 \subsection{\# of relations}
+A relation on an $n$ element set $S$ is a subset of $S \times S$, or equivalently, an element of the power set of $S \times S$. There are
+\[2^{\,\abs{S}\,\abs{S}}=2^{n^2}\]
+such subsets.
 \subsection{\# of transitive relations}
 There is no known closed formula for counting the number of transitive relations. The (perhaps inefficient) approach taken in this algorithm is as follows
 \begin{enumerate}
@@ -75,9 +79,21 @@ There is no known closed formula for counting the number of transitive relations
 \item[(2)] For each relation generated in (1), check that for each $(a,b)$, if there is a point of the form $(b,c)$, then $(a,c)$ must be in the relation
 \end{enumerate}
 \subsection{\# of (ir)reflexive relations}
+A relation is reflexive if all elements are related to themselves, or equivalently, all entries on the main diagonal of the matrix representation of the relation must be 1. There are $n^2$ entries in the matrix and $n$ entries on the main diagonal. For the remaining $n^2-n$ off diagonal entries, the ordered pair may or may not be in the relation. Thus, there are
+\[2^{n^2-n}\]
+reflexive relations. The argument for irreflexive relations is the same, with the exception that all entries on the main diagonal of the matrix representation of the relation must be 0.
 \subsection{\# of symmetric relations}
+A relation $R$ is symmetric if for all $(a,b)$ that are in $R$, $(b,a)$ is also in $R$. Each element on the diagonal may or may not be related to itself, and similarly for all the ${n \choose 2}$ two element subsets (with distinct elements). Thus, there are
+\[2^{{n \choose 2} + n} = 2^{\frac{n(n+1)}{2}}\]
+symmetric relations on a set with $n$ elements.
 \subsection{\# of antisymmetric relations}
+A relation $R$ is antisymmetric if for all $(a,b)$ that are in $R$, if $(b,a)$ is in $R$, then $a=b$. There are two choices for every element on the diagonal. For the remaining ${n \choose 2}$ two element subsets (with distinct elements) with elements $a$ and $b$, either $(a,b) \in R$ and $(b,a) \not \in R$, $(a,b) \not \in R$ and $(b,a) \in R$, or $(a,b) \not \in R$ and $(b,a) \not \in R$, so there are 3 choices for each two element subset. Thus, there are
+\[2^n3^{{n \choose 2}} = 2^n3^{\frac{n(n-1)}{2}}\]
+antisymmetric relations on a set with $n$ elements.
 \subsection{\# of equivalence relations}
+A relation $R$ on a set $A$ is an equivalence relation if it is reflexive, symmetric, and transitive. For each $a \in A$, the equivalence class of $a$ is given by $[a] = \{x \mid xRa\}$. The equivalence classes form a partition of $A$, and so the number of equivalence relations on a set $S$ is given by the number of partitions of a set $S$. So, this number is equivalent to the Bell number (number of partitions/equivalence relations for an $n$ element set) which we can compute directly.
+\[B_n = \sum_{k=1}^{n} {n-1 \choose k-1} B_{n-k}\]
+for $n \ge 0$.
 
 \section{Sets}
 \subsection{Generate power set}
