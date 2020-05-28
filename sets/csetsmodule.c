@@ -12,9 +12,11 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
     if (len > 25)
         return NULL;
 
-    PyObject** set = malloc(len * sizeof(PyObject*));
+    uint* set = malloc(len * sizeof(uint));
+    PyObject* tmp;
     for (uint i = 0; i < len; i++) {
-        set[i] = PyList_GetItem(listObj, i);
+        tmp = PyList_GetItem(listObj, i);
+        set[i] = PyLong_AsUnsignedLong(tmp);
     }
 
     double pset_size = pow(2, len);
@@ -33,7 +35,7 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
         int subset_index = 0;
         for (uint j = 0; j < len; j++) {
             if ((i & ((uint) 1 << j)) > 0) {
-                PyList_SetItem(subset, subset_index, set[j]);
+                PyList_SetItem(subset, subset_index, PyLong_FromUnsignedLong(set[j]));
                 subset_index++;
             }
         }
