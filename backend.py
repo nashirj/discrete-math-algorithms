@@ -45,7 +45,17 @@ functions_with_int_parameters = {
 }
 
 def build_output_string(user_in, function_name, result, time):
-    return f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is\n{', '.join(result)}\nComputation took --- {(time)} seconds ---"
+    line_length = 60
+    result = str(result) if type(result) == int or len(result) == 1 else ', '.join(result)
+    i = 0
+    new_res = []
+    while i < len(result):
+        new_res.append(f"{result[i:i+min(len(result), line_length)]}\n")
+        i += line_length
+    
+    out1 = f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is"
+    out2 = f"Computation took --- {time} seconds ---"
+    return f"{out1}\n{''.join(new_res)}\n{out2}"
 
 def build_error_string(expected_num_params, actual_num_params):
     return f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''}, not {actual_num_params} input{'s' if actual_num_params != 1 else ''}"

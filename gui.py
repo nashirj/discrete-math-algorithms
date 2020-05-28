@@ -23,7 +23,7 @@ mainframe.pack(pady = 100, padx = 100)
 # Create a Tkinter variable
 tkvar = tk.StringVar(top)
 
-tkvar.set('<select an option here>') # set the default option
+tkvar.set('------') # set the default option
 
 popupMenu = tk.OptionMenu(mainframe, tkvar, *backend.all_functions)
 tk.Label(mainframe, text="Choose something to compute").grid(row = 1, column = 1)
@@ -31,6 +31,7 @@ popupMenu.grid(row = 2, column =1)
 
 # on change dropdown value
 def on_change_dropdown(*args):
+    # TODO: set the text for expected inputs here
     img_path = backend.all_functions[tkvar.get()][1]
     if img_path is None:
         img_path = 'default.png'
@@ -57,7 +58,7 @@ res.grid(row=6,column=1)
 
 def on_click_compute():
     # TODO: make function call asynchronous and have a buffering animation while computation is happening with an option to cancel the function
-    # TODO: print result from function as a string and have it wrap around if it's too long
+    # TODO: put all this parsing in the backend
 
     function = backend.all_functions[tkvar.get()][0]
     user_in = [foo.strip() for foo in e1.get().split(',')]
