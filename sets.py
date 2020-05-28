@@ -19,3 +19,8 @@ def generate_cartesian_product(elements):
             res.append((elements[i], elements[j]))
 
     return res
+
+
+def generate_cartesian_product_n_elements(n):
+    elements = [i for i in range (1,n+1)]
+    return generate_cartesian_product(elements)

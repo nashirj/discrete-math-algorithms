@@ -34,7 +34,14 @@
 \subsection{Bell numbers}
 The Bell numbers represent the number of ways to count partitions of (or equivalently equivalence relations on) an $n$ element set. The $n$-th bell number is given by the recurrence
 \[B_n = \sum_{k=1}^{n} {n-1 \choose k-1} B_{n-k}\]
+for $n \ge 0$.
 \subsection{Catalan numbers}
+The Catalan numbers form a sequence of natural numbers that occur in various counting problems, often involving recursively-defined objects. They can be expressed by the recurrence relation
+\[C_{n+1} = \sum_{i=0}^{n}C_iC_{n-1}\]
+for $n \ge 0$.
+
+\noindent Their closed form is given by
+\[{2n \choose n} - {2n \choose n+1 }\]
 \subsection{Fibonacci numbers}
 The Fibonacci numbers, commonly denoted $F_n$, form a sequence such that each number is the sum of the two preceding ones, with $F_0 = 0$, $F_1 = 1$, and the recurrence given by
 \[F_n = F_{n-1}+F_{n-2}\]
@@ -53,6 +60,11 @@ for $n > 1$.
 \section{Relations}
 \subsection{\# of relations}
 \subsection{\# of transitive relations}
+There is no known closed formula for counting the number of transitive relations. The (perhaps inefficient) approach taken in this algorithm is as follows
+\begin{enumerate}
+\item[(1)] Generate all possible relations for an $n$ element set (given by the power set of the cartesian product of the set $\{1,2,3,\dots,n\}$)
+\item[(2)] For each relation generated in (1), check that for each $(a,b)$, if there is a point of the form $(b,c)$, then $(a,c)$ must be in the relation
+\end{enumerate}
 \subsection{\# of (ir)reflexive relations}
 \subsection{\# of symmetric relations}
 \subsection{\# of antisymmetric relations}
@@ -61,6 +73,9 @@ for $n > 1$.
 \section{Sets}
 \subsection{Generate power set}
 \subsection{Generate cartesian product}
+
+\section{Isomorphisms}
+maybe total orders?
 
 \section{Default}
 No documentation provided.

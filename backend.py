@@ -9,7 +9,7 @@ import sets
 # First item in value is function, second is documentation (png)
 all_functions = {
     'Bell numbers' : [bell.bell_dp, 'bell_doc.png'],
-    'Catalan numbers' : [catalan.catalan_dp, None],
+    'Catalan numbers' : [catalan.catalan_dp, 'catalan_doc.png'],
     'Fibonacci numbers' : [fib.fibonacci_dp, 'fib_doc.png'],
     'n choose k' : [combinatorics.n_choose_k, None],
     'n pick k' : [combinatorics.n_pick_k, None],
@@ -17,7 +17,7 @@ all_functions = {
     'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, None],
     'generate permutations of a string' : [combinatorics.generate_permutations, None],
     'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, None],
-    'number of transitive relations' : [relations.count_transitive_relations, None],
+    'number of transitive relations' : [relations.count_transitive_relations, 'trans_doc.png'],
     'number of relations' : [relations.count_relations, None],
     'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, None],
     'number of symmetric relations' : [relations.count_symmetric_relations, None],
