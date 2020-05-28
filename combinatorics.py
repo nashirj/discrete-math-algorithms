@@ -38,7 +38,7 @@ def _generate_permutations(n, s, pos, strs, char_set, repetition_allowed):
         _generate_permutations(n, s, pos+1, strs, char_set, repetition_allowed)
         char_set[i] = s[pos]
 
-def generate_permutations(s, repetition_allowed):
+def generate_permutations(s, repetition_allowed=False):
     strs = []
     _generate_permutations(len(s), list(s), 0, strs, list(s), repetition_allowed)
     strs.sort()

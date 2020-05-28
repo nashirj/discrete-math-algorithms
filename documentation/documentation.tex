@@ -50,10 +50,19 @@ for $n > 1$.
 \subsection{Stirling numbers of the second kind}
 
 \section{Permutations and Combinations}
-\subsection{n choose k}
-\subsection{n pick k}
-\subsection{n choose k, repetition allowed}
-\subsection{n pick k, repetition allowed}
+\subsection{Combinations without repetition}
+A combination without repetition is a selection of items from a collection, such that the order of selection does not matter. A $k$-combination of an $n$ element set $S$ is a subset of $k$ distinct elements. The number of $k$-combinations is equal to the binomial coefficient given by
+\[{n \choose k} = \frac{n!}{(n-k)!\,k!}\]
+
+\subsection{Permutations without repetition}
+$k$-permutations of $n$ are the different ordered arrangements of a $k$-element subset of an $n$-set. This number is given by
+\[P(n,k) = n \cdot (n-1) \cdot (n-2) \cdot \dots (n-k+1) = \frac{n!}{(n-k)!}\]
+\subsection{Combinations without repetition}
+A $k$-combination with repetitions allowed is a sequence of $k$ not necessarily distinct elements of $S$, where order is not taken into account, i.e. the number of ways to sample $k$ elements from a set of $n$ elements allowing for duplicates but disregarding different orderings. Using the \emph{stars and bars method}, it can be shown that this number is given by
+\[{n+k-1 \choose k}\]
+
+\subsection{Permutations with repetition}
+Permutations with repetition are ordered arrangements of $k$ elements from a set $S$ with $n$ elements where repetition is allowed. The number of permutations with repetition of size $k$ is simply $k^n$.
 \subsection{Generate permutations of a string}
 \subsection{Generate all bit strings of length n}
 
