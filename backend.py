@@ -1,3 +1,5 @@
+import inspect # this lets us get function args
+
 # include functions to compute vals
 import bell
 import catalan
@@ -26,6 +28,10 @@ all_functions = {
     'generate power set' : [sets.generate_power_set, None],
     'generate cartesian product' : [sets.generate_cartesian_product, None]
 }
+
+for item in all_functions:
+    args = str(inspect.signature(all_functions[item][0]))[1:-1]
+    all_functions[item].append([s.strip() for s in args.split(',')])
 
 functions_with_int_parameters = {
     'Bell numbers' : 1,

@@ -31,8 +31,7 @@ popupMenu.grid(row = 2, column =1)
 
 # on change dropdown value
 def on_change_dropdown(*args):
-    # TODO: set the text for expected inputs here
-    img_path = backend.all_functions[tkvar.get()][1]
+    img_path, args = backend.all_functions[tkvar.get()][1:]
     if img_path is None:
         img_path = 'default.png'
     img = Image.open(img_path)
@@ -46,10 +45,17 @@ def on_change_dropdown(*args):
     panel.configure(image=img)
     panel.image = img
 
+    input_description.configure(text=f"{default_input_desc} Expected args: {', '.join(args)}")
+
+    img_path = backend.all_functions[tkvar.get()][1]
+
 # define a callback with write permission to tkvar
 tkvar.trace('w', on_change_dropdown)
 
-tk.Label(mainframe, text="Enter comma separated inputs here (i.e. 5, 20)").grid(row=3,column=1)
+default_input_desc = "Enter comma separated inputs (i.e. 5, 20)."
+input_description = tk.Label(mainframe, text=default_input_desc)
+input_description.grid(row=3,column=1)
+
 e1 = tk.Entry(mainframe)
 e1.grid(row=4,column=1) # TODO: make this have a label that describes what input arguments are expected
 
