@@ -12,11 +12,9 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
     if (len > 25)
         return NULL;
 
-    ulong* set = malloc(len * sizeof(ulong));
-    PyObject* item;
+    PyObject** set = malloc(len * sizeof(PyObject*));
     for (uint i = 0; i < len; i++) {
-        item = PyList_GetItem(listObj, i);
-        set[i] = PyLong_AsUnsignedLong(item);
+        set[i] = PyList_GetItem(listObj, i);
     }
 
     double pset_size = pow(2, len);
@@ -32,12 +30,10 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
         }
 
         PyObject* subset = PyList_New(subset_size);
-        PyObject* current_item = NULL;
         int subset_index = 0;
         for (uint j = 0; j < len; j++) {
             if ((i & ((uint) 1 << j)) > 0) {
-                current_item = PyLong_FromUnsignedLong(set[j]);
-                PyList_SetItem(subset, subset_index, current_item);
+                PyList_SetItem(subset, subset_index, set[j]);
                 subset_index++;
             }
         }
@@ -62,6 +58,6 @@ static struct PyModuleDef csetsmodule = {
         CSetsMethods
 };
 
-PyMODINIT_FUNC PyInit_sets(void) {
+PyMODINIT_FUNC PyInit_csets(void) {
     return PyModule_Create(&csetsmodule);
 }
