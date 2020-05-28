@@ -1,5 +1,8 @@
 #include <Python.h>
 
+typedef unsigned int uint;
+typedef unsigned long int ulong;
+
 static PyObject* generate_power_set(PyObject* self, PyObject* args) {
     PyObject* listObj;
     if (!PyArg_ParseTuple(args, "O!", &PyList_Type, &listObj))
@@ -31,7 +34,7 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
         PyObject* subset = PyList_New(subset_size);
         PyObject* current_item = NULL;
         int subset_index = 0;
-        for (uint j = 0; j < subset_size; j++) {
+        for (uint j = 0; j < len; j++) {
             if ((i & ((uint) 1 << j)) > 0) {
                 current_item = PyLong_FromUnsignedLong(set[j]);
                 PyList_SetItem(subset, subset_index, current_item);
@@ -46,19 +49,19 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
     return pset;
 }
 
-static PyMethodDef SetsMethods[] = {
+static PyMethodDef CSetsMethods[] = {
         {"generate_pset", generate_power_set, METH_VARARGS, "Generate a power set from the given elements."},
         {NULL, NULL, 0, NULL}
 };
 
-static struct PyModuleDef setsmodule = {
+static struct PyModuleDef csetsmodule = {
         PyModuleDef_HEAD_INIT,
-        "sets",
-        "Python module for generating sets pertinent to discrete math",
+        "csets",
+        "Python C module for generating sets pertinent to discrete math",
         -1,
-        SetsMethods
+        CSetsMethods
 };
 
 PyMODINIT_FUNC PyInit_sets(void) {
-    return PyModule_Create(&setsmodule);
+    return PyModule_Create(&csetsmodule);
 }

@@ -8,4 +8,4 @@ find_package(PythonLibs 3.7 REQUIRED)
 
 include_directories(${PYTHON_INCLUDE_DIRS})
 
-add_library(sets ${PYTHON_LIBRARIES} setsmodule.c)
+add_library(sets ${PYTHON_LIBRARIES} csetsmodule.c)
