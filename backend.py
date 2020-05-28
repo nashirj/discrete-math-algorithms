@@ -11,10 +11,10 @@ all_functions = {
     'Bell numbers' : [bell.bell_dp, 'bell_doc.png'],
     'Catalan numbers' : [catalan.catalan_dp, 'catalan_doc.png'],
     'Fibonacci numbers' : [fib.fibonacci_dp, 'fib_doc.png'],
-    'n choose k' : [combinatorics.n_choose_k, None],
-    'n pick k' : [combinatorics.n_pick_k, None],
-    'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, None],
-    'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, None],
+    'n choose k' : [combinatorics.n_choose_k, 'comb_no_rep_doc.png'],
+    'n pick k' : [combinatorics.n_pick_k, 'perm_no_rep_doc.png'],
+    'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, 'comb_w_rep_doc.png'],
+    'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, 'perm_w_rep_doc.png'],
     'generate permutations of a string' : [combinatorics.generate_permutations, None],
     'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, None],
     'number of transitive relations' : [relations.count_transitive_relations, 'trans_doc.png'],
@@ -44,4 +44,8 @@ functions_with_int_parameters = {
     'number of equivalence relations' : 1
 }
 
-function_img = "graphAutos.png"
+def build_output_string(user_in, function_name, result, time):
+    return f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is\n{', '.join(result)}\nComputation took --- {(time)} seconds ---"
+
+def build_error_string(expected_num_params, actual_num_params):
+    return f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''}, not {actual_num_params} input{'s' if actual_num_params != 1 else ''}"

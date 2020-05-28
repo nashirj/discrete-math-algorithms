@@ -67,18 +67,22 @@ def on_click_compute():
         except:
             res.config(text=f"Expected integer inputs, please try again", fg='red')
             return
-        expected_num_params = backend.functions_with_int_parameters[tkvar.get()]
-        if len(args) != expected_num_params:
-            res.config(text=f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''}, not {len(args)} input{'s' if len(args) != 1 else ''}", fg='red')
+        if len(args) != backend.functions_with_int_parameters[tkvar.get()]:
+            s = backend.build_error_string(backend.functions_with_int_parameters[tkvar.get()], len(args))
+            res.config(text=s, fg='red')
             return
         t0 = time.time()
         result = function(*args)
         t1 = time.time()-t0
     else:
         t0 = time.time()
-        result = function(args)
+        if len(user_in) == 1:
+            result = function(user_in[0])
+        else:
+            result = function(user_in)
         t1 = time.time()-t0
-    res.config(text=f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {tkvar.get()} is\n{result}\nComputation took --- {(t1)} seconds ---", fg='blue')
+    s = backend.build_output_string(user_in, tkvar.get(), result, t1)
+    res.config(text=s, fg='blue')
 
 img_path = None
 img = None
