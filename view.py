@@ -55,7 +55,7 @@ class MainApplication(tk.Frame):
     def on_change_dropdown(self, *args):
         self.img_path, args = controller.all_functions[self.tkvar.get()][1:]
         if self.img_path is None:
-            self.img_path = 'default.png'
+            self.img_path = controller.default_doc
         self.img = Image.open(self.img_path)
 
         #multiple image size by zoom

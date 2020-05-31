@@ -11,24 +11,26 @@ import sets
 # TODO: take pic of docs so that they are higher res
 # First item in value is function, second is documentation (png)
 all_functions = {
-    'Bell numbers' : [bell.bell_dp, 'bell_doc.png'],
-    'Catalan numbers' : [catalan.catalan_dp, 'catalan_doc.png'],
-    'Fibonacci numbers' : [fib.fibonacci_dp, 'fib_doc.png'],
-    'n choose k' : [combinatorics.n_choose_k, 'comb_no_rep_doc.png'],
-    'n pick k' : [combinatorics.n_pick_k, 'perm_no_rep_doc.png'],
-    'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, 'comb_w_rep_doc.png'],
-    'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, 'perm_w_rep_doc.png'],
+    'Bell numbers' : [bell.bell_dp, bell.bell_doc],
+    'Catalan numbers' : [catalan.catalan_dp, catalan.catalan_doc],
+    'Fibonacci numbers' : [fib.fibonacci_dp, fib.fib_doc],
+    'n choose k' : [combinatorics.n_choose_k, combinatorics.comb_no_rep_doc],
+    'n pick k' : [combinatorics.n_pick_k, combinatorics.perm_no_rep_doc],
+    'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, combinatorics.comb_w_rep_doc],
+    'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, combinatorics.perm_w_rep_doc],
     'generate permutations of a string' : [combinatorics.generate_permutations, None],
     'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, None],
-    'number of transitive relations' : [relations.count_transitive_relations, 'trans_doc.png'],
-    'number of relations' : [relations.count_relations, 'rel_doc.png'],
-    'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, 'refl_rel_doc.png'],
-    'number of symmetric relations' : [relations.count_symmetric_relations, 'sym_rel_doc.png'],
-    'number of antisymmetric relations' : [relations.count_antisymmetric_relations, 'antisym_rel_doc.png'],
-    'number of equivalence relations' : [relations.count_equivalence_relations, 'equiv_rel_doc.png'],
+    'number of transitive relations' : [relations.count_transitive_relations, relations.count_trans_doc],
+    'number of relations' : [relations.count_relations, relations.count_rel_doc],
+    'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, relations.count_refl_rel_doc],
+    'number of symmetric relations' : [relations.count_symmetric_relations, relations.count_sym_rel_doc],
+    'number of antisymmetric relations' : [relations.count_antisymmetric_relations, relations.count_antisym_rel_doc],
+    'number of equivalence relations' : [relations.count_equivalence_relations, relations.count_equiv_rel_doc],
     'generate power set' : [sets.generate_power_set, None],
     'generate cartesian product' : [sets.generate_cartesian_product, None]
 }
+
+default_doc = 'docs/default.png'
 
 for item in all_functions:
     args = str(inspect.signature(all_functions[item][0]))[1:-1]

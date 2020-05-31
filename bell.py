@@ -1,6 +1,10 @@
 import combinatorics
 import time
 
+
+bell_doc = 'docs/bell_doc.png'
+
+
 def bell_recursive(n):
     if n < 0:
         raise ValueError("Not possible to partition a set with negative # of elements")

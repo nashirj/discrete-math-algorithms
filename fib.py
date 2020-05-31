@@ -1,3 +1,6 @@
+fib_doc = 'docs/fib_doc.png'
+
+
 # defined for n > 0
 def fibonacci_recursive(n):
     if n < 3:

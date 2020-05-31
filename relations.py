@@ -6,7 +6,7 @@ import combinatorics
 def _get_all_pairs_with_same_first_elem(relation, val):
     return [(a, b) for a,b in relation if a == val]
 
-
+count_trans_doc = 'docs/trans_doc.png'
 def count_transitive_relations(n):
     relations = sets.generate_power_set(sets.generate_cartesian_product_n_elements(n))
     num_trans = 0
@@ -22,23 +22,23 @@ def count_transitive_relations(n):
 
     return num_trans
 
-
+count_rel_doc = 'docs/rel_doc.png'
 def count_relations(n):
     return 2**(n**2)
 
-
+count_refl_rel_doc = 'docs/refl_rel_doc.png'
 def count_reflexive_relations(n):
     return 2**(n*(n-1))
 
-
+count_sym_rel_doc = 'docs/sym_rel_doc.png'
 def count_symmetric_relations(n):
     return 2**((n*(n+1))//2)
 
-
+count_antisym_rel_doc = 'docs/antisym_rel_doc.png'
 def count_antisymmetric_relations(n):
     return (2**n)*(3**(combinatorics.n_choose_k(n,2)))
 
-
+count_equiv_rel_doc = 'docs/equiv_rel_doc.png'
 def count_equivalence_relations(n):
     return bell.bell_dp(n)
 

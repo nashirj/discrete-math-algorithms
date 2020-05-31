@@ -1,21 +1,25 @@
 import math
 # from typing import
 
+comb_no_rep_doc = 'docs/comb_no_rep_doc.png'
 def n_choose_k(n,k):
     if n <= k:
         return 1
     return math.factorial(n)//(math.factorial(n-k) * math.factorial(k))
 
+perm_no_rep_doc = 'docs/perm_no_rep_doc.png'
 def n_pick_k(n,k):
     if n < k:
         return 1
     return math.factorial(n)//math.factorial(n-k)
 
+comb_w_rep_doc = 'docs/comb_w_rep_doc.png'
 def n_choose_k_repetition_allowed(n,k):
     if n <= k:
         return 1
     return n_choose_k(n+k-1,k)
 
+perm_w_rep_doc = 'docs/perm_w_rep_doc.png'
 def n_pick_k_repetition_allowed(n,k):
     if n < k:
         return 1

@@ -1,6 +1,10 @@
 import time
 import combinatorics
 
+
+catalan_doc = 'docs/catalan_doc.png'
+
+
 def catalan_recursive(n):
     if n < 0:
         raise ValueError("Expected argument greater than or equal to 0")
