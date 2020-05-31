@@ -2,7 +2,7 @@ import tkinter as tk
 import time
 
 # controller logic for view
-import backend
+import controller
 
 # display images/documentation about functions
 from PIL import ImageTk, Image
@@ -20,9 +20,10 @@ class MainApplication(tk.Frame):
         # Create a Tkinter variable
         self.tkvar = tk.StringVar(self.parent)
 
-        self.tkvar.set('------') # set the default option
+        # set the default option
+        self.tkvar.set('------')
 
-        self.popupMenu = tk.OptionMenu(self, self.tkvar, *backend.all_functions)
+        self.popupMenu = tk.OptionMenu(self, self.tkvar, *controller.all_functions)
         tk.Label(self, text="Choose something to compute").grid(row = 1, column = 1)
         self.popupMenu.grid(row = 2, column =1)
 
@@ -52,7 +53,7 @@ class MainApplication(tk.Frame):
 
     # on change dropdown value
     def on_change_dropdown(self, *args):
-        self.img_path, args = backend.all_functions[self.tkvar.get()][1:]
+        self.img_path, args = controller.all_functions[self.tkvar.get()][1:]
         if self.img_path is None:
             self.img_path = 'default.png'
         self.img = Image.open(self.img_path)
@@ -66,21 +67,21 @@ class MainApplication(tk.Frame):
 
         self.input_description.configure(text=f"{self.default_input_desc} Expected args: {', '.join(args)}")
 
-        self.img_path = backend.all_functions[self.tkvar.get()][1]
+        self.img_path = controller.all_functions[self.tkvar.get()][1]
 
     def on_click_compute(self):
         # TODO: make function call asynchronous and have a buffering animation while computation is happening with an option to cancel the function
-        # TODO: put all this parsing in the backend
-        function = backend.all_functions[self.tkvar.get()][0]
+        # TODO: put all this parsing in the controller
+        function = controller.all_functions[self.tkvar.get()][0]
         user_in = [arg.strip() for arg in self.e1.get().split(',')]
-        if self.tkvar.get() in backend.functions_with_int_parameters:
+        if self.tkvar.get() in controller.functions_with_int_parameters:
             try:
                 args = [int(i) for i in user_in]
             except:
                 self.res.config(text=f"Expected integer inputs, please try again", fg='red')
                 return
-            if len(args) != backend.functions_with_int_parameters[self.tkvar.get()]:
-                s = backend.build_error_string(backend.functions_with_int_parameters[self.tkvar.get()], len(args))
+            if len(args) != controller.functions_with_int_parameters[self.tkvar.get()]:
+                s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
                 self.res.config(text=s, fg='red')
                 return
             t0 = time.time()
@@ -93,7 +94,8 @@ class MainApplication(tk.Frame):
             else:
                 result = function(user_in)
             t1 = time.time()-t0
-        s = backend.build_output_string(user_in, self.tkvar.get(), result, t1)
+        # TODO: wrap res in a scrollbar
+        s = controller.build_output_string(user_in, self.tkvar.get(), result, t1)
         self.res.config(text=s, fg='blue')
 
 if __name__ == '__main__':
