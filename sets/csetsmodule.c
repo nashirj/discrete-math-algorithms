@@ -9,7 +9,7 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
         return NULL;
 
     uint len = PyList_Size(listObj);
-    if (len > 25)
+    if (len > 27)
         return NULL;
 
     uint* set = malloc(len * sizeof(uint));
@@ -26,10 +26,23 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
         uint subset_size = 0;
         uint n = i;
         // This while loop looks like a an O(n) operation, but since n is an 8 bit type, it's really constant time.
-        while (n) {
-            subset_size += n & (uint) 1;
-            n >>= (uint) 1;
-        }
+        // I've unrolled the loop since I'm not sure how smart the optimizer is
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+        n >>= (uint) 1;
+        subset_size += n & (uint) 1;
+
 
         PyObject* subset = PyList_New(subset_size);
         int subset_index = 0;
