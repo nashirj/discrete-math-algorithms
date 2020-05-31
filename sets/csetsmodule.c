@@ -67,6 +67,24 @@ static PyObject* generate_power_set(PyObject* self, PyObject* args) {
     return pset;
 }
 
+static PyObject* _gen_cset_from_c_arr(uint* set, uint size) {
+    PyObject* cset = PyList_New(pow(size, 2));
+    uint cset_index = 0;
+
+    for (uint i = 0; i < size; i++) {
+        for (uint j = 0; j < size; j++) {
+            PyObject* pair = PyTuple_New(2);
+            PyTuple_SetItem(pair, 0, PyLong_FromLong(set[i]));
+            PyTuple_SetItem(pair, 1, PyLong_FromLong(set[j]));
+            PyList_SetItem(cset, cset_index, pair);
+
+            cset_index++;
+        }
+    }
+
+    return cset;
+}
+
 static PyObject* generate_cartesian_product(PyObject* self, PyObject* args) {
     PyObject* listObj;
     if (!PyArg_ParseTuple(args, "O!", &PyList_Type, &listObj))
@@ -86,22 +104,25 @@ static PyObject* generate_cartesian_product(PyObject* self, PyObject* args) {
         set[i] = PyLong_AsUnsignedLong(tmp);
     }
 
-    uint cset_size = pow(len, 2);
-    PyObject* cset = PyList_New(cset_size);
-    uint cset_index = 0;
+    PyObject* cset = _gen_cset_from_c_arr(set, len);
 
-    for (uint i = 0; i < len; i++) {
-        for (uint j = 0; j < len; j++) {
-            PyObject* pair = PyTuple_New(2);
-            PyTuple_SetItem(pair, 0, PyLong_FromLong(set[i]));
-            PyTuple_SetItem(pair, 1, PyLong_FromLong(set[j]));
-            PyList_SetItem(cset, cset_index, pair);
-
-            cset_index++;
-        }
-    }
-
+    free(set);
     return cset;
+}
+
+PyObject* generate_cartesian_product_n_elements(PyObject* self, PyObject* args) {
+    uint n;
+    if (!PyArg_ParseTuple(args, "k", &n))
+        return NULL;
+
+    uint* set = malloc(n * sizeof(uint));
+    for (uint i = 1; i <= n; i++) {
+        set[i - 1] = i;
+    }
+    PyObject* cset = _gen_cset_from_c_arr(set, n);
+
+    free(set);
+    return(cset);
 }
 
 static PyMethodDef CSetsMethods[] = {
