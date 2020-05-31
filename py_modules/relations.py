@@ -1,7 +1,5 @@
 import time
-import sets
-import bell
-import combinatorics
+from py_modules import bell, sets, combinatorics
 
 def _get_all_pairs_with_same_first_elem(relation, val):
     return [(a, b) for a,b in relation if a == val]

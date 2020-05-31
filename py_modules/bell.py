@@ -1,9 +1,7 @@
-import combinatorics
+from py_modules import combinatorics
 import time
 
-
 bell_doc = 'docs/bell_doc.png'
-
 
 def bell_recursive(n):
     if n < 0:

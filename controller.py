@@ -1,12 +1,7 @@
 import inspect # this lets us get function args
 
 # include functions to compute vals
-import bell
-import catalan
-import combinatorics
-import fib
-import relations
-import sets
+from py_modules import catalan, combinatorics, bell, fib, relations, sets
 
 # TODO: take pic of docs so that they are higher res
 # First item in value is function, second is documentation (png)

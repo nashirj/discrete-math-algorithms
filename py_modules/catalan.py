@@ -1,5 +1,5 @@
 import time
-import combinatorics
+from py_modules import combinatorics
 
 
 catalan_doc = 'docs/catalan_doc.png'
