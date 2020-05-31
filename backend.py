@@ -8,6 +8,7 @@ import fib
 import relations
 import sets
 
+# TODO: take pic of docs so that they are higher res
 # First item in value is function, second is documentation (png)
 all_functions = {
     'Bell numbers' : [bell.bell_dp, 'bell_doc.png'],
@@ -50,6 +51,7 @@ functions_with_int_parameters = {
     'number of equivalence relations' : 1
 }
 
+# TODO: figure out how to not wrap line in the middle of a word
 def build_output_string(user_in, function_name, result, time):
     line_length = 60
     result = str(result) if type(result) == int or len(result) == 1 else ', '.join(result)
