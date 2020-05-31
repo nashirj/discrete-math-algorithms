@@ -1,7 +1,6 @@
 import tkinter as tk
 import time
 
-# controller logic for view
 import controller
 
 # display images/documentation about functions
@@ -53,7 +52,7 @@ class MainApplication(tk.Frame):
 
     # on change dropdown value
     def on_change_dropdown(self, *args):
-        self.img_path, args = controller.all_functions[self.tkvar.get()][1:]
+        self.img_path, args = controller.all_functions[self.tkvar.get()][1:3] # [1:3] slices elements at indices 1 and 2
         if self.img_path is None:
             self.img_path = controller.default_doc
         self.img = Image.open(self.img_path)
@@ -71,31 +70,19 @@ class MainApplication(tk.Frame):
 
     def on_click_compute(self):
         # TODO: make function call asynchronous and have a buffering animation while computation is happening with an option to cancel the function
-        # TODO: put all this parsing in the controller
-        function = controller.all_functions[self.tkvar.get()][0]
-        user_in = [arg.strip() for arg in self.e1.get().split(',')]
-        if self.tkvar.get() in controller.functions_with_int_parameters:
-            try:
-                args = [int(i) for i in user_in]
-            except:
-                self.res.config(text=f"Expected integer inputs, please try again", fg='red')
-                return
-            if len(args) != controller.functions_with_int_parameters[self.tkvar.get()]:
-                s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
-                self.res.config(text=s, fg='red')
-                return
-            t0 = time.time()
-            result = function(*args)
-            t1 = time.time()-t0
-        else:
-            t0 = time.time()
-            if len(user_in) == 1:
-                result = function(user_in[0])
-            else:
-                result = function(user_in)
-            t1 = time.time()-t0
+        unformatted_input = self.e1.get()
+        function_name = self.tkvar.get()
+        try:
+            user_in, time, result = controller.parse_input(function_name, unformatted_input)
+        except TypeError:
+            self.res.config(text=f"Expected integer inputs, please try again", fg='red')
+            return
+        except ValueError:
+            s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
+            self.res.config(text=s, fg='red')
+            return
         # TODO: wrap res in a scrollbar
-        s = controller.build_output_string(user_in, self.tkvar.get(), result, t1)
+        s = controller.build_output_string(user_in, function_name, result, time)
         self.res.config(text=s, fg='blue')
 
 if __name__ == '__main__':

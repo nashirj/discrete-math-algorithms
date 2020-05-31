@@ -1,4 +1,5 @@
 import inspect # this lets us get function args
+import time # get execution time of a method
 
 # include functions to compute vals
 from py_modules import catalan, combinatorics, bell, fib, relations, sets
@@ -64,3 +65,27 @@ def build_output_string(user_in, function_name, result, time):
 
 def build_error_string(expected_num_params, actual_num_params):
     return f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''}, not {actual_num_params} input{'s' if actual_num_params != 1 else ''}"
+
+def parse_input(function_name, unformatted_input):
+    function = all_functions[function_name][0]
+    user_in = [arg.strip() for arg in unformatted_input.split(',')]
+    if function_name in functions_with_int_parameters:
+        try:
+            args = [int(i) for i in user_in]
+        except:
+            raise TypeError()
+        if len(args) != functions_with_int_parameters[function_name]:
+            raise ValueError()
+        t0 = time.time()
+        result = function(*args)
+        t1 = time.time()-t0
+    else:
+        t0 = time.time()
+        if len(user_in) == 1:
+            result = function(user_in[0])
+        else:
+            result = function(user_in)
+        t1 = time.time()-t0
+    return user_in, time, result
+
+
