@@ -112,17 +112,17 @@ static PyObject* generate_cartesian_product(PyObject* self, PyObject* args) {
 
 PyObject* generate_cartesian_product_n_elements(PyObject* self, PyObject* args) {
     uint n;
-    if (!PyArg_ParseTuple(args, "k", &n))
+    if (!PyArg_ParseTuple(args, "I", &n))
         return NULL;
 
     uint* set = malloc(n * sizeof(uint));
-    for (uint i = 1; i <= n; i++) {
-        set[i - 1] = i;
+    for (uint i = 0; i < n; i++) {
+        set[i] = i + 1;
     }
     PyObject* cset = _gen_cset_from_c_arr(set, n);
 
     free(set);
-    return(cset);
+    return cset;
 }
 
 static PyMethodDef CSetsMethods[] = {
