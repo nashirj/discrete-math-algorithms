@@ -1,5 +1,4 @@
 import tkinter as tk
-import time
 
 import controller
 
@@ -34,7 +33,7 @@ class MainApplication(tk.Frame):
         self.input_description.grid(row=3,column=1)
 
         self.e1 = tk.Entry(self)
-        self.e1.grid(row=4,column=1) # TODO: make this have a label that describes what input arguments are expected
+        self.e1.grid(row=4,column=1)
 
         self.res = tk.Label(self, text="", font=("Monospace", 16), fg='blue')
         self.res.grid(row=6,column=1)

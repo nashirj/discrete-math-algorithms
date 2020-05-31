@@ -52,6 +52,7 @@ functions_with_int_parameters = {
 # TODO: figure out how to not wrap line in the middle of a word
 def build_output_string(user_in, function_name, result, time):
     line_length = 60
+    # TODO: this output doesn't work with result of powerset
     result = str(result) if type(result) == int or len(result) == 1 else ', '.join(result)
     i = 0
     new_res = []
@@ -86,6 +87,6 @@ def parse_input(function_name, unformatted_input):
         else:
             result = function(user_in)
         t1 = time.time()-t0
-    return user_in, time, result
+    return user_in, t1, result
 
 
