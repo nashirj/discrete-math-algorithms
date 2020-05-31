@@ -77,6 +77,7 @@ class MainApplication(tk.Frame):
             self.res.config(text=f"Expected integer inputs, please try again", fg='red')
             return
         except ValueError:
+            args = unformatted_input.split(',')
             s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
             self.res.config(text=s, fg='red')
             return

@@ -53,7 +53,11 @@ functions_with_int_parameters = {
 def build_output_string(user_in, function_name, result, time):
     line_length = 60
     # TODO: this output doesn't work with result of powerset
-    result = str(result) if type(result) == int or len(result) == 1 else ', '.join(result)
+    if type(result) == int:
+        result = str(result)
+    # TODO: power set returns a list of lists, so these cases don't handle that. need to fix
+    elif type(result) == list:
+        result = ', '.join(result)
     i = 0
     new_res = []
     while i < len(result):
@@ -85,7 +89,7 @@ def parse_input(function_name, unformatted_input):
         if len(user_in) == 1:
             result = function(user_in[0])
         else:
-            result = function(user_in)
+            result = function([str(i) for i in user_in])
         t1 = time.time()-t0
     return user_in, t1, result
 
