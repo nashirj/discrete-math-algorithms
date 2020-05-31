@@ -127,7 +127,10 @@ PyObject* generate_cartesian_product_n_elements(PyObject* self, PyObject* args) 
 
 static PyMethodDef CSetsMethods[] = {
         {"generate_pset", generate_power_set, METH_VARARGS, "Generate a power set from the given elements."},
-        {"generate_cartesian_product", generate_cartesian_product, METH_VARARGS, "Generate the cartesian product of a given set"},
+        {"generate_cartesian_product", generate_cartesian_product, METH_VARARGS,
+            "Generate the cartesian product of a given set"},
+        {"generate_cartesian_product_n_elements", generate_cartesian_product_n_elements, METH_VARARGS,
+            "Generate the cartesian product of the sequence 1..n"},
         {NULL, NULL, 0, NULL}
 };
 
