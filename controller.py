@@ -52,12 +52,17 @@ functions_with_int_parameters = {
 # TODO: figure out how to not wrap line in the middle of a word
 def build_output_string(user_in, function_name, result, time):
     line_length = 60
-    # TODO: this output doesn't work with result of powerset
     if type(result) == int:
         result = str(result)
-    # TODO: power set returns a list of lists, so these cases don't handle that. need to fix
     elif type(result) == list:
-        result = ', '.join(result)
+        if function_name == 'generate power set' or function_name == 'generate cartesian product':
+            # result = c
+            new_res = []
+            for r in result:
+                new_res.append(f"{{{', '.join(r)}}}")
+            result = ', '.join(new_res)
+        else:
+            result = ', '.join(result)
     i = 0
     new_res = []
     while i < len(result):
@@ -86,10 +91,10 @@ def parse_input(function_name, unformatted_input):
         t1 = time.time()-t0
     else:
         t0 = time.time()
-        if len(user_in) == 1:
-            result = function(user_in[0])
+        if function_name == 'generate power set' or function_name == 'generate cartesian product':
+            result = function(user_in)
         else:
-            result = function([str(i) for i in user_in])
+            result = function(user_in[0])
         t1 = time.time()-t0
     return user_in, t1, result
 
