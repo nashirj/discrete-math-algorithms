@@ -1,9 +1,36 @@
 import tkinter as tk
+from tkinter import ttk
 
 import controller
 
 # display images/documentation about functions
 from PIL import ImageTk, Image
+
+
+class ScrollableFrame(ttk.Frame):
+    def __init__(self, container, *args, **kwargs):
+        super().__init__(container, *args, **kwargs)
+        canvas = tk.Canvas(self)
+        canvas.configure(height=100, width=100)
+
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.scrollable_frame = ttk.Frame(canvas)
+
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+
+        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill=None, expand=False)
+        canvas.pack_propagate(False)
+        scrollbar.pack(side="right", fill="y")
+
 
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -35,8 +62,14 @@ class MainApplication(tk.Frame):
         self.e1 = tk.Entry(self)
         self.e1.grid(row=4,column=1)
 
-        self.res = tk.Label(self, text="", wraplength=500, fg='blue')
-        self.res.grid(row=6,column=1)
+        self.frameception = tk.Frame(self)
+        self.frameception.grid(row=6, column=1)
+        self.frameception.configure(height=10, width=10)
+        self.frameception.grid_propagate(False)
+        self.res_frame = ScrollableFrame(self.frameception, width=100, height=100)
+        self.res_frame.pack(expand=False, fill=None)
+        self.res = tk.Label(self.res_frame, text="", wraplength=500, fg='blue')
+        self.res.pack(fill=tk.BOTH, expand=True)
 
         self.img_path = None
         self.img = None
