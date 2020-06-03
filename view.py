@@ -88,7 +88,7 @@ class MainApplication(tk.Frame):
 if __name__ == '__main__':
     # Create top level GUI
     top = tk.Tk()
-    top.attributes("-fullscreen", True)
+    top.geometry('{}x{}+0+0'.format(*top.maxsize()))
     top.option_add( "*font", "Monospace 16" )
 
     MainApplication(top)
