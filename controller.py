@@ -3,7 +3,7 @@ import time # get execution time of a method
 import threading # run functions asynchronously
 
 # include functions to compute vals
-from py_modules import catalan, combinatorics, bell, fib, relations, sets
+from py_modules import catalan, combinatorics, bell, fib, relations, sets, recurrence
 
 # First item in value is function, second is documentation (png)
 all_functions = {
@@ -23,7 +23,8 @@ all_functions = {
     'number of antisymmetric relations' : [relations.count_antisymmetric_relations, relations.count_antisym_rel_doc],
     'number of equivalence relations' : [relations.count_equivalence_relations, relations.count_equiv_rel_doc],
     'generate power set' : [sets.generate_power_set, None],
-    'generate cartesian product' : [sets.generate_cartesian_product, None]
+    'generate cartesian product' : [sets.generate_cartesian_product, None],
+    'solve LHCCRR' : [recurrence.solve_lin_recurrence_relation, None]
 }
 
 default_doc = 'docs/default.png'
@@ -55,14 +56,22 @@ functions_with_string_parameters = {
 
 functions_with_list_parameters = {
     'generate power set',
-    'generate cartesian product'
+    'generate cartesian product',
+    'solve_lin_recurrence_relation'
 }
 
 def build_output_string(user_in, function_name, result, time):
     if type(result) == int:
         result = str(result)
     elif type(result) == list:
-        if function_name in functions_with_list_parameters:
+        if function_name == 'solve LHCCRR':
+            new_res = []
+            i = len(result)-1
+            for r in result:
+                new_res.append(f"(a_{i}: {r[0]:.4f}; r_{i}: {r[1]:.4f})")
+                i -= 1
+            result = ', '.join(new_res)
+        elif function_name in functions_with_list_parameters:
             new_res = []
             for r in result:
                 new_res.append(f"{{{', '.join(r)}}}")
@@ -70,6 +79,9 @@ def build_output_string(user_in, function_name, result, time):
         else:
             result = ', '.join(result)
     
+    if function_name == 'solve LHCCRR':
+        user_in[0] = str(user_in[0])
+        user_in[1] = str(user_in[1])
     out1 = f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is"
     out2 = f"Computation took --- {time} seconds ---"
     return f"{out1}\n{''.join(result)}\n{out2}"
@@ -81,15 +93,24 @@ def build_error_string(exp_num_ps, num_ps):
 
 def parse_input(function_name, unformatted_input):
     function = all_functions[function_name][0]
-    user_in = [arg.strip() for arg in unformatted_input.split(',')]
     args = None
     if function_name in functions_with_int_parameters:
+        user_in = [arg.strip() for arg in unformatted_input.split(',')]
         try:
             args = [int(i) for i in user_in]
         except:
             raise TypeError()
         if len(args) != functions_with_int_parameters[function_name]:
             raise ValueError()
+    if function_name == 'solve LHCCRR':
+        if ';' not in unformatted_input:
+            raise ValueError()
+        l = unformatted_input.split(';')
+        coefficients = [int(arg.strip()) for arg in l[0].split(',')]
+        base_cases = [int(arg.strip()) for arg in l[1].split(',')]
+        if len(coefficients) != len(base_cases):
+            raise ValueError()
+        user_in = [coefficients, base_cases]
 
     return user_in, args, function
 

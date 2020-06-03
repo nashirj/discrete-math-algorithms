@@ -3,7 +3,8 @@ from tkinter.ttk import Progressbar
 
 import controller
 
-import queue # for async stuff
+# for async stuff
+import queue
 import time
 
 # display images/documentation about functions
@@ -80,7 +81,16 @@ class MainApplication(tk.Frame):
 
         self.res.grid_forget()
 
+    def reset_gui(self):
+        self.prog_bar.stop()
+        self.prog_bar.grid_forget()
+        self.B.config(state=tk.NORMAL)
+        self.B.config(text="Compute")
+
+
     def on_click_compute(self):
+        if self.tkvar.get() == '------':
+            return
         self.res.grid_forget()
         self.prog_bar.grid(row=6, column=1)
         self.B.config(text="Computing")
@@ -99,9 +109,14 @@ class MainApplication(tk.Frame):
             self.res.config(text=f"Expected integer inputs, please try again", fg='red')
             return
         except ValueError:
-            args = unformatted_input.split(',')
-            s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
+            if self.function_name == 'solve LHCCRR':
+                s = "For an nth degree LHCCRR, need n base cases. Separate coefficients and base cases with a semicolon, i.e. '2,3;3,4'"
+            else:
+                args = unformatted_input.split(',')
+                s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
             self.res.config(text=s, fg='red')
+            self.res.grid(row=7,column=1)
+            self.reset_gui()
             return
         
         t0 = time.time()
@@ -109,25 +124,22 @@ class MainApplication(tk.Frame):
             # result = function(*args)
             controller.ThreadedTask(self.queue, function, [*args], t0).start()
         else:
-            if self.function_name in controller.functions_with_list_parameters:
-                # result = function(user_in)
+            if self.function_name == 'solve LHCCRR':
+                self.res.config(text="computing lhccrr")
+                controller.ThreadedTask(self.queue, function, [self.user_in[0], self.user_in[1]], t0).start()
+            elif self.function_name in controller.functions_with_list_parameters:
                 controller.ThreadedTask(self.queue, function, [self.user_in], t0).start()
             else:
-                # result = function(user_in[0])
                 controller.ThreadedTask(self.queue, function, [self.user_in[0]], t0).start()
 
         self.master.after(100, self.process_queue)
-
-        # TODO: wrap res in a scrollbar
-        # s = controller.build_output_string(user_in, function_name, result, t)
-        # self.res.config(text=s, fg='blue')
 
     def process_queue(self):
         try:
             result, t = self.queue.get(0)
             self.res.grid(row=7,column=1)
             s = controller.build_output_string(self.user_in, self.function_name, result, t)
-            self.res.config(text=s)
+            self.res.config(text=s, fg='blue')
             self.prog_bar.stop()
             self.prog_bar.grid_forget()
             self.B.config(state=tk.NORMAL)
