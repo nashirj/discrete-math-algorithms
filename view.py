@@ -35,7 +35,7 @@ class MainApplication(tk.Frame):
         self.e1 = tk.Entry(self)
         self.e1.grid(row=4,column=1)
 
-        self.res = tk.Label(self, text="", font=("Monospace", 16), fg='blue')
+        self.res = tk.Label(self, text="", wraplength=500, fg='blue')
         self.res.grid(row=6,column=1)
 
         self.img_path = None

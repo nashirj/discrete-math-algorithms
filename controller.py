@@ -49,9 +49,7 @@ functions_with_int_parameters = {
     'number of equivalence relations' : 1
 }
 
-# TODO: figure out how to not wrap line in the middle of a word
 def build_output_string(user_in, function_name, result, time):
-    line_length = 60
     if type(result) == int:
         result = str(result)
     elif type(result) == list:
@@ -63,18 +61,13 @@ def build_output_string(user_in, function_name, result, time):
             result = ', '.join(new_res)
         else:
             result = ', '.join(result)
-    i = 0
-    new_res = []
-    while i < len(result):
-        new_res.append(f"{result[i:i+min(len(result), line_length)]}\n")
-        i += line_length
     
     out1 = f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is"
     out2 = f"Computation took --- {time} seconds ---"
-    return f"{out1}\n{''.join(new_res)}{out2}"
+    return f"{out1}\n{''.join(result)}\n{out2}"
 
-def build_error_string(expected_num_params, actual_num_params):
-    return f"Expected {expected_num_params} input{'s' if expected_num_params != 1 else ''}, not {actual_num_params} input{'s' if actual_num_params != 1 else ''}"
+def build_error_string(exp_num_ps, num_ps):
+    return f"Expected {exp_num_ps} input{'s' if exp_num_ps != 1 else ''}, not {num_ps} input{'s' if num_ps != 1 else ''}"
 
 def parse_input(function_name, unformatted_input):
     function = all_functions[function_name][0]
