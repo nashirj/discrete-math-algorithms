@@ -4,7 +4,6 @@ import time # get execution time of a method
 # include functions to compute vals
 from py_modules import catalan, combinatorics, bell, fib, relations, sets
 
-# TODO: take pic of docs so that they are higher res
 # First item in value is function, second is documentation (png)
 all_functions = {
     'Bell numbers' : [bell.bell_dp, bell.bell_doc],
@@ -49,12 +48,20 @@ functions_with_int_parameters = {
     'number of equivalence relations' : 1
 }
 
+functions_with_string_parameters = {
+    'generate_permutations'
+}
+
+functions_with_list_parameters = {
+    'generate power set',
+    'generate cartesian product'
+}
+
 def build_output_string(user_in, function_name, result, time):
     if type(result) == int:
         result = str(result)
     elif type(result) == list:
-        if function_name == 'generate power set' or function_name == 'generate cartesian product':
-            # result = c
+        if function_name in functions_with_list_parameters:
             new_res = []
             for r in result:
                 new_res.append(f"{{{', '.join(r)}}}")
@@ -67,7 +74,9 @@ def build_output_string(user_in, function_name, result, time):
     return f"{out1}\n{''.join(result)}\n{out2}"
 
 def build_error_string(exp_num_ps, num_ps):
-    return f"Expected {exp_num_ps} input{'s' if exp_num_ps != 1 else ''}, not {num_ps} input{'s' if num_ps != 1 else ''}"
+    exp_inputs = f"input{'s' if exp_num_ps != 1 else ''}"
+    actual_inputs = f"input{'s' if num_ps != 1 else ''}"
+    return f"Expected {exp_num_ps} {exp_inputs}, not {num_ps} {actual_inputs}"
 
 def parse_input(function_name, unformatted_input):
     function = all_functions[function_name][0]
