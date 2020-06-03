@@ -1,6 +1,10 @@
 import tkinter as tk
+from tkinter.ttk import Progressbar
 
 import controller
+
+import queue # for async stuff
+import time
 
 # display images/documentation about functions
 from PIL import ImageTk, Image
@@ -36,7 +40,7 @@ class MainApplication(tk.Frame):
         self.e1.grid(row=4,column=1)
 
         self.res = tk.Label(self, text="", wraplength=500, fg='blue')
-        self.res.grid(row=6,column=1)
+        self.res.grid(row=7,column=1)
 
         self.img_path = None
         self.img = None
@@ -44,10 +48,17 @@ class MainApplication(tk.Frame):
 
         self.panel = tk.Label(self, image = self.img)
 
-        self.panel.grid(row=7,column=1)
+        self.panel.grid(row=8,column=1)
 
         self.B = tk.Button(self, text = "Compute", command = self.on_click_compute)
         self.B.grid(row=5,column=1)
+
+        self.prog_bar = Progressbar(
+            self, orient="horizontal",
+            length=200, mode="indeterminate"
+        )
+        self.prog_bar.grid(row=6, column=1)
+        self.prog_bar.grid_forget()
 
     # on change dropdown value
     def on_change_dropdown(self, *args):
@@ -67,12 +78,23 @@ class MainApplication(tk.Frame):
 
         self.img_path = controller.all_functions[self.tkvar.get()][1]
 
+        self.res.grid_forget()
+
     def on_click_compute(self):
-        # TODO: make function call asynchronous and have a buffering animation while computation is happening with an option to cancel the function
+        self.res.grid_forget()
+        self.prog_bar.grid(row=6, column=1)
+        self.B.config(text="Computing")
+        self.B.config(state=tk.DISABLED)
+        self.prog_bar.start()
+        self.queue = queue.Queue()
+        
+        # TODO: instead of a progress bar, make a buffering animation
+        # while computation is happening with an option to cancel the function
         unformatted_input = self.e1.get()
-        function_name = self.tkvar.get()
+        self.function_name = self.tkvar.get()
+        
         try:
-            user_in, time, result = controller.parse_input(function_name, unformatted_input)
+            self.user_in, args, function = controller.parse_input(self.function_name, unformatted_input)
         except TypeError:
             self.res.config(text=f"Expected integer inputs, please try again", fg='red')
             return
@@ -81,9 +103,37 @@ class MainApplication(tk.Frame):
             s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
             self.res.config(text=s, fg='red')
             return
+        
+        t0 = time.time()
+        if self.function_name in controller.functions_with_int_parameters:
+            # result = function(*args)
+            controller.ThreadedTask(self.queue, function, [*args], t0).start()
+        else:
+            if self.function_name in controller.functions_with_list_parameters:
+                # result = function(user_in)
+                controller.ThreadedTask(self.queue, function, [self.user_in], t0).start()
+            else:
+                # result = function(user_in[0])
+                controller.ThreadedTask(self.queue, function, [self.user_in[0]], t0).start()
+
+        self.master.after(100, self.process_queue)
+
         # TODO: wrap res in a scrollbar
-        s = controller.build_output_string(user_in, function_name, result, time)
-        self.res.config(text=s, fg='blue')
+        # s = controller.build_output_string(user_in, function_name, result, t)
+        # self.res.config(text=s, fg='blue')
+
+    def process_queue(self):
+        try:
+            result, t = self.queue.get(0)
+            self.res.grid(row=7,column=1)
+            s = controller.build_output_string(self.user_in, self.function_name, result, t)
+            self.res.config(text=s)
+            self.prog_bar.stop()
+            self.prog_bar.grid_forget()
+            self.B.config(state=tk.NORMAL)
+            self.B.config(text="Compute")
+        except queue.Empty:
+            self.master.after(100, self.process_queue)
 
 if __name__ == '__main__':
     # Create top level GUI

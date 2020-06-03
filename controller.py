@@ -1,5 +1,6 @@
 import inspect # this lets us get function args
 import time # get execution time of a method
+import threading # run functions asynchronously
 
 # include functions to compute vals
 from py_modules import catalan, combinatorics, bell, fib, relations, sets
@@ -81,6 +82,7 @@ def build_error_string(exp_num_ps, num_ps):
 def parse_input(function_name, unformatted_input):
     function = all_functions[function_name][0]
     user_in = [arg.strip() for arg in unformatted_input.split(',')]
+    args = None
     if function_name in functions_with_int_parameters:
         try:
             args = [int(i) for i in user_in]
@@ -88,16 +90,17 @@ def parse_input(function_name, unformatted_input):
             raise TypeError()
         if len(args) != functions_with_int_parameters[function_name]:
             raise ValueError()
-        t0 = time.time()
-        result = function(*args)
-        t1 = time.time()-t0
-    else:
-        t0 = time.time()
-        if function_name == 'generate power set' or function_name == 'generate cartesian product':
-            result = function(user_in)
-        else:
-            result = function(user_in[0])
-        t1 = time.time()-t0
-    return user_in, t1, result
+
+    return user_in, args, function
 
 
+class ThreadedTask(threading.Thread):
+    def __init__(self, queue, function, args, t0):
+        threading.Thread.__init__(self)
+        self.queue = queue
+        self.function = function
+        self.args = args
+        self.t0 = t0
+    def run(self):
+        result = self.function(*self.args)
+        self.queue.put((result, time.time()-self.t0))
