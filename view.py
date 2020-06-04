@@ -110,7 +110,7 @@ class MainApplication(tk.Frame):
             return
         except ValueError:
             if self.function_name == 'solve LHCCRR':
-                s = "For an nth degree LHCCRR, need n base cases. Separate coefficients and base cases with a semicolon, i.e. '2,3;3,4'"
+                s = '''For a kth degree LHCCRR, need k base cases.\nSeparate coefficients and base cases with a semicolon, i.e. "2,3;3,4"'''
             else:
                 args = unformatted_input.split(',')
                 s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
@@ -125,7 +125,6 @@ class MainApplication(tk.Frame):
             controller.ThreadedTask(self.queue, function, [*args], t0).start()
         else:
             if self.function_name == 'solve LHCCRR':
-                self.res.config(text="computing lhccrr")
                 controller.ThreadedTask(self.queue, function, [self.user_in[0], self.user_in[1]], t0).start()
             elif self.function_name in controller.functions_with_list_parameters:
                 controller.ThreadedTask(self.queue, function, [self.user_in], t0).start()
@@ -138,7 +137,11 @@ class MainApplication(tk.Frame):
         try:
             result, t = self.queue.get(0)
             self.res.grid(row=7,column=1)
-            s = controller.build_output_string(self.user_in, self.function_name, result, t)
+            if not result:
+                if self.function_name == 'solve LHCCRR':
+                    s = '''No implementation for complex roots of LHCCRR\nNo implementation for higher order solutions with repeated roots'''
+            else:
+                s = controller.build_output_string(self.user_in, self.function_name, result, t)
             self.res.config(text=s, fg='blue')
             self.prog_bar.stop()
             self.prog_bar.grid_forget()

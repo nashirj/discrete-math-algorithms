@@ -123,5 +123,8 @@ class ThreadedTask(threading.Thread):
         self.args = args
         self.t0 = t0
     def run(self):
-        result = self.function(*self.args)
+        try:
+            result = self.function(*self.args)
+        except ValueError:
+            pass # if ValueError is raised, None is appended to queue, error handling occurs in view.process_queue
         self.queue.put((result, time.time()-self.t0))
