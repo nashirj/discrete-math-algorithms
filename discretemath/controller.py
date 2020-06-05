@@ -2,7 +2,7 @@ import inspect # this lets us get function args
 import time # get execution time of a method
 
 # include functions to compute vals
-from py_modules import catalan, combinatorics, bell, fib, relations, sets, recurrence
+from py import catalan, combinatorics, bell, fib, relations, sets, recurrence
 
 # First item in value is function, second is documentation (png)
 all_functions = {
