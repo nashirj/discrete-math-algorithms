@@ -1,11 +1,14 @@
+# gui
 import tkinter as tk
 from tkinter.ttk import Progressbar
 
+# backend computation
 import controller
 
 # for async stuff
-import queue
 import time
+import multiprocessing as mp
+import queue
 
 # display images/documentation about functions
 from PIL import ImageTk, Image
@@ -26,8 +29,9 @@ class MainApplication(tk.Frame):
         # set the default option
         self.tkvar.set('------')
 
-        self.popupMenu = tk.OptionMenu(self, self.tkvar, *controller.all_functions)
         tk.Label(self, text="Choose something to compute").grid(row = 1, column = 1)
+        
+        self.popupMenu = tk.OptionMenu(self, self.tkvar, *controller.all_functions)
         self.popupMenu.grid(row = 2, column =1)
 
         # define a callback with write permission to self.tkvar
@@ -40,8 +44,22 @@ class MainApplication(tk.Frame):
         self.e1 = tk.Entry(self)
         self.e1.grid(row=4,column=1)
 
+        self.compute_B = tk.Button(self, text = "Compute", command = self.on_click_compute)
+        self.compute_B.grid(row=5,column=1)
+
+        self.cancel_B = tk.Button(self, text = "Stop computation", command = self.on_click_cancel)
+        self.cancel_B.grid(row=6,column=1)
+        self.cancel_B.grid_forget()
+
+        self.prog_bar = Progressbar(
+            self, orient="horizontal",
+            length=200, mode="indeterminate"
+        )
+        self.prog_bar.grid(row=7, column=1)
+        self.prog_bar.grid_forget() # only show progress bar during computation
+
         self.res = tk.Label(self, text="", wraplength=500, fg='blue')
-        self.res.grid(row=7,column=1)
+        self.res.grid(row=8,column=1)
 
         self.img_path = None
         self.img = None
@@ -49,17 +67,10 @@ class MainApplication(tk.Frame):
 
         self.panel = tk.Label(self, image = self.img)
 
-        self.panel.grid(row=8,column=1)
+        self.panel.grid(row=9,column=1)
 
-        self.B = tk.Button(self, text = "Compute", command = self.on_click_compute)
-        self.B.grid(row=5,column=1)
-
-        self.prog_bar = Progressbar(
-            self, orient="horizontal",
-            length=200, mode="indeterminate"
-        )
-        self.prog_bar.grid(row=6, column=1)
-        self.prog_bar.grid_forget()
+        mp.set_start_method('spawn')
+        self.queue = mp.Queue()
 
     # on change dropdown value
     def on_change_dropdown(self, *args):
@@ -84,19 +95,24 @@ class MainApplication(tk.Frame):
     def reset_gui(self):
         self.prog_bar.stop()
         self.prog_bar.grid_forget()
-        self.B.config(state=tk.NORMAL)
-        self.B.config(text="Compute")
+        self.compute_B.config(state=tk.NORMAL)
+        self.compute_B.config(text="Compute")
+        self.cancel_B.grid_forget()
 
+    def on_click_cancel(self):
+        self.queue.put(("interrupt",0))
+        self.res.config(text="Computation cancelled", fg='red')
+        self.reset_gui()
 
     def on_click_compute(self):
         if self.tkvar.get() == '------':
             return
         self.res.grid_forget()
-        self.prog_bar.grid(row=6, column=1)
-        self.B.config(text="Computing")
-        self.B.config(state=tk.DISABLED)
+        self.prog_bar.grid(row=7, column=1)
         self.prog_bar.start()
-        self.queue = queue.Queue()
+        self.compute_B.config(text="Computing")
+        self.compute_B.config(state=tk.DISABLED)
+        self.cancel_B.grid(row=6, column=1)
         
         # TODO: instead of a progress bar, make a buffering animation
         # while computation is happening with an option to cancel the function
@@ -115,39 +131,48 @@ class MainApplication(tk.Frame):
                 args = unformatted_input.split(',')
                 s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
             self.res.config(text=s, fg='red')
-            self.res.grid(row=7,column=1)
+            self.res.grid(row=8,column=1)
             self.reset_gui()
             return
         
-        t0 = time.time()
         if self.function_name in controller.functions_with_int_parameters:
-            # result = function(*args)
-            controller.ThreadedTask(self.queue, function, [*args], t0).start()
+            args = [*args]
         else:
             if self.function_name == 'solve LHCCRR':
-                controller.ThreadedTask(self.queue, function, [self.user_in[0], self.user_in[1]], t0).start()
+                args = [self.user_in[0], self.user_in[1]]
             elif self.function_name in controller.functions_with_list_parameters:
-                controller.ThreadedTask(self.queue, function, [self.user_in], t0).start()
+                args = [self.user_in]
             else:
-                controller.ThreadedTask(self.queue, function, [self.user_in[0]], t0).start()
+                args = [self.user_in[0]]
+
+        self.process = mp.Process(target=controller.run, args=(self.queue, function, args, time.time()))
+        self.process.start()
 
         self.master.after(100, self.process_queue)
 
     def process_queue(self):
         try:
             result, t = self.queue.get(0)
-            self.res.grid(row=7,column=1)
+            self.res.grid(row=8,column=1)
             if not result:
                 if self.function_name == 'solve LHCCRR':
                     s = '''No implementation for complex roots of LHCCRR\nNo implementation for higher order solutions with repeated roots'''
+                else:
+                    s = "This should not happen :o"
+            elif result == "interrupt":
+                self.process.terminate()
+                time.sleep(0.1)
+                self.process.close()
+                s = "Computation cancelled"
             else:
                 s = controller.build_output_string(self.user_in, self.function_name, result, t)
             self.res.config(text=s, fg='blue')
             self.prog_bar.stop()
             self.prog_bar.grid_forget()
-            self.B.config(state=tk.NORMAL)
-            self.B.config(text="Compute")
-        except queue.Empty:
+            self.compute_B.config(state=tk.NORMAL)
+            self.compute_B.config(text="Compute")
+            self.cancel_B.grid_forget()
+        except queue.Empty: # this comes from queue module, not from multiprocessing
             self.master.after(100, self.process_queue)
 
 if __name__ == '__main__':

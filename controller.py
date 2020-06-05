@@ -1,6 +1,5 @@
 import inspect # this lets us get function args
 import time # get execution time of a method
-import threading # run functions asynchronously
 
 # include functions to compute vals
 from py_modules import catalan, combinatorics, bell, fib, relations, sets, recurrence
@@ -56,8 +55,7 @@ functions_with_string_parameters = {
 
 functions_with_list_parameters = {
     'generate power set',
-    'generate cartesian product',
-    'solve_lin_recurrence_relation'
+    'generate cartesian product'
 }
 
 def build_output_string(user_in, function_name, result, time):
@@ -102,7 +100,7 @@ def parse_input(function_name, unformatted_input):
             raise TypeError()
         if len(args) != functions_with_int_parameters[function_name]:
             raise ValueError()
-    if function_name == 'solve LHCCRR':
+    elif function_name == 'solve LHCCRR':
         if ';' not in unformatted_input:
             raise ValueError()
         l = unformatted_input.split(';')
@@ -111,20 +109,15 @@ def parse_input(function_name, unformatted_input):
         if len(coefficients) != len(base_cases):
             raise ValueError()
         user_in = [coefficients, base_cases]
+    else:
+        user_in = [arg.strip() for arg in unformatted_input.split(',')]
 
     return user_in, args, function
 
-
-class ThreadedTask(threading.Thread):
-    def __init__(self, queue, function, args, t0):
-        threading.Thread.__init__(self)
-        self.queue = queue
-        self.function = function
-        self.args = args
-        self.t0 = t0
-    def run(self):
-        try:
-            result = self.function(*self.args)
-        except ValueError:
-            pass # if ValueError is raised, None is appended to queue, error handling occurs in view.process_queue
-        self.queue.put((result, time.time()-self.t0))
+def run(queue, function, args, t0):
+    try:
+        result = function(*args)
+    except ValueError:
+        pass # if ValueError is raised, None is appended to queue, error handling occurs in view.process_queue
+    queue.put((result, time.time()-t0))
+    
