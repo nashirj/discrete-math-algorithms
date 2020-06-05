@@ -1,5 +1,5 @@
-import sets
-import csets
+from py_modules import sets
+from c_modules import csets
 import time
 
 def compare_run_times(functions, args, print_res=True):
