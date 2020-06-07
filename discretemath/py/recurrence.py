@@ -34,7 +34,7 @@ def solve_lin_recurrence_relation(coefficients, base_cases):
 	inv = np.linalg.inv(np.array(matrix))
 	base = np.array(base_cases)
 
-	constants = inv.dot(base)
+	constants = np.round(inv.dot(base),4)
 
 	res = dict()
 	i = 0
