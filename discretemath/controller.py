@@ -61,15 +61,20 @@ functions_with_list_parameters = {
 def build_output_string(user_in, function_name, result, time):
     if type(result) == int:
         result = str(result)
+    elif type(result) == dict:
+        # solve LHCCRR
+        new_res = []
+        for root, vals in result.items():
+            curr = "("
+            curr += f"{vals[0]}"
+            if len(vals) > 1:
+                curr += f" + {vals[1]}*n"
+                for i in range(2, len(vals)):
+                    curr += f" + {vals[i]}*n^{i}"
+            new_res.append(curr+f")*({root:.4f})^n")
+        result = 'a_n = ' + ' + '.join(new_res)
     elif type(result) == list:
-        if function_name == 'solve LHCCRR':
-            new_res = []
-            i = len(result)-1
-            for r in result:
-                new_res.append(f"({r[0]:.4f})*({r[1]:.4f})^n")
-                i -= 1
-            result = 'a_n = ' + ' + '.join(new_res)
-        elif function_name in functions_with_list_parameters:
+        if function_name in functions_with_list_parameters:
             new_res = []
             for r in result:
                 new_res.append(f"{{{', '.join(r)}}}")

@@ -1,9 +1,6 @@
 import numpy as np
 import collections
 
-# TODO: make this work right with repeated roots
-# TODO: make this work with higher order
-
 def solve_lin_recurrence_relation(coefficients, base_cases):
 	if len(coefficients) != len(base_cases):
 		raise ValueError("For a kth degree LHCCRR, need k base cases")
@@ -11,7 +8,7 @@ def solve_lin_recurrence_relation(coefficients, base_cases):
 	coeff.insert(0, -1)
 	coeff = np.multiply(coeff, -1)
 	roots = np.roots(coeff)
-	
+
 	if (roots.imag > 10e-6).any():
 		raise ValueError("No implementation exists for complex roots of LHCCRR")
 
@@ -37,38 +34,45 @@ def solve_lin_recurrence_relation(coefficients, base_cases):
 	inv = np.linalg.inv(np.array(matrix))
 	base = np.array(base_cases)
 
-	res = inv.dot(base)
-	ret = []
-	for i in range(len(res)):
-		ret.append((res[i], roots[i]))
+	constants = inv.dot(base)
 
-	return ret
+	res = dict()
+	i = 0
+	for root, mult in root_multiplicities.items():
+		res[root] = constants[i:i+mult]
+		i += mult
+
+	return res
 
 if __name__ == '__main__':
-	# # distinct real roots
-	# coeff = [1,2]
-	# base = [2,7]
-	# print(solve_lin_recurrence_relation(coeff,base))
+	# distinct real roots
+	coeff = [1,2]
+	base = [2,7]
+	print(solve_lin_recurrence_relation(coeff,base))
 
-	# # repeated real roots
-	# coeff = [6,-9]
-	# base = [1,6]
-	# print(solve_lin_recurrence_relation(coeff,base))
+	# repeated real roots
+	coeff = [6,-9]
+	base = [1,6]
+	print(solve_lin_recurrence_relation(coeff,base))
 
-	# # higher order w/ distinct real roots
-	# coeff = [6,-11,6]
-	# base = [2,5,15]
-	# print(solve_lin_recurrence_relation(coeff,base))
+	# higher order w/ distinct real roots
+	coeff = [6,-11,6]
+	base = [2,5,15]
+	print(solve_lin_recurrence_relation(coeff,base))
 
-	# # complex real roots
-	# coeff = [0,-4]
-	# base = [1,1]
-	# try:
-	# 	print(solve_lin_recurrence_relation(coeff,base))
-	# except ValueError:
-	# 	print("No implementation exists for complex roots of LHCCRR")
+	# complex real roots
+	coeff = [0,-4]
+	base = [1,1]
+	try:
+		print(solve_lin_recurrence_relation(coeff,base))
+	except ValueError:
+		print("No implementation exists for complex roots of LHCCRR")
 
 	# higher order w/ repeated real roots
 	coeff = [-3,-3,-1]
 	base = [5,-9,15]
+	print(solve_lin_recurrence_relation(coeff,base))
+
+	coeff = [0,7,-6]
+	base = [1,3,5]
 	print(solve_lin_recurrence_relation(coeff,base))
