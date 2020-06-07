@@ -1,5 +1,4 @@
 import math
-# from typing import
 
 comb_no_rep_doc = 'docs/comb_no_rep_doc.png'
 def n_choose_k(n,k):

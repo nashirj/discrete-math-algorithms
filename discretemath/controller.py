@@ -2,7 +2,7 @@ import inspect # this lets us get function args
 import time # get execution time of a method
 
 # include functions to compute vals
-from py_modules import catalan, combinatorics, bell, fib, relations, sets, recurrence
+from py import catalan, combinatorics, bell, fib, relations, sets, recurrence
 
 # First item in value is function, second is documentation (png)
 all_functions = {
@@ -66,9 +66,9 @@ def build_output_string(user_in, function_name, result, time):
             new_res = []
             i = len(result)-1
             for r in result:
-                new_res.append(f"(a_{i}: {r[0]:.4f}; r_{i}: {r[1]:.4f})")
+                new_res.append(f"({r[0]:.4f})*({r[1]:.4f})^n")
                 i -= 1
-            result = ', '.join(new_res)
+            result = 'a_n = ' + ' + '.join(new_res)
         elif function_name in functions_with_list_parameters:
             new_res = []
             for r in result:

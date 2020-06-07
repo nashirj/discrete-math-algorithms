@@ -9,6 +9,7 @@ import controller
 import time
 import multiprocessing as mp
 import queue
+import sys
 
 # display images/documentation about functions
 from PIL import ImageTk, Image
@@ -71,6 +72,7 @@ class MainApplication(tk.Frame):
 
         mp.set_start_method('spawn')
         self.queue = mp.Queue()
+        self.py_version_gte_3_7 = sys.version[0] == 3 and sys.version[1] >= 7
 
     # on change dropdown value
     def on_change_dropdown(self, *args):
@@ -162,7 +164,8 @@ class MainApplication(tk.Frame):
             elif result == "interrupt":
                 self.process.terminate()
                 time.sleep(0.1)
-                self.process.close()
+                if self.py_version_gte_3_7:
+                    self.process.close()
                 s = "Computation cancelled"
             else:
                 s = controller.build_output_string(self.user_in, self.function_name, result, t)
