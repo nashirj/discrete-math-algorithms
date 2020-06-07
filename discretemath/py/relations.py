@@ -1,5 +1,5 @@
 import time
-from discretemath.py import bell, sets, combinatorics
+from . import bell, sets, combinatorics
 
 def _get_all_pairs_with_same_first_elem(relation, val):
     return [(a, b) for a,b in relation if a == val]

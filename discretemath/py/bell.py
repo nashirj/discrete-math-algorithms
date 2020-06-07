@@ -1,4 +1,4 @@
-from discretemath.py import combinatorics
+from . import combinatorics
 import time
 
 bell_doc = 'docs/bell_doc.png'

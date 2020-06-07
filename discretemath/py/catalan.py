@@ -1,5 +1,5 @@
 import time
-from discretemath.py import combinatorics
+from . import combinatorics
 
 
 catalan_doc = 'docs/catalan_doc.png'
