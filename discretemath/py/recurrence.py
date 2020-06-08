@@ -7,7 +7,7 @@ Solve homogeneous linear recurrence relations with constant coefficients of
 import numpy as np
 import collections
 
-solve_lhccrr_doc = 
+# solve_lhccrr_doc = 
 def solve_lin_recurrence_relation(coefficients, base_cases):
 	'''
 	Solve homogeneous linear recurrence relations.
