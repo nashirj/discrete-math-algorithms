@@ -1,5 +1,10 @@
-fib_doc = 'docs/fib_doc.png'
+'''
+Compute the nth Fibonacci number (https://en.wikipedia.org/wiki/Fibonacci_number),
+    i.e. the nth number in the sequence F_n = F_{n-1} + F_{n-2} with F_0 = 0 and
+    F_1 = 1.
+'''
 
+fib_doc = 'docs/fib_doc.png'
 
 # defined for n > 0
 def fibonacci_recursive(n):

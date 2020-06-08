@@ -1,3 +1,8 @@
+'''
+Provide operations on sets, including generation of power set and cartesian product
+    given a list of elements and the cartesian product of an n element set.
+'''
+
 def generate_power_set(elements):
     power_set = []
     for counter in range(2**(len(elements))):

@@ -1,3 +1,5 @@
+'''Backend for view.py.'''
+
 import inspect # this lets us get function args
 import time # get execution time of a method
 

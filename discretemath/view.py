@@ -1,9 +1,11 @@
+'''GUI for interacting with functionality provided by discretemath module.'''
+
 # gui
 import tkinter as tk
 from tkinter.ttk import Progressbar
 
 # backend computation
-import controller
+import _controller
 
 # for async stuff
 import time
@@ -32,7 +34,7 @@ class MainApplication(tk.Frame):
 
         tk.Label(self, text="Choose something to compute").grid(row = 1, column = 1)
         
-        self.popupMenu = tk.OptionMenu(self, self.tkvar, *controller.all_functions)
+        self.popupMenu = tk.OptionMenu(self, self.tkvar, *_controller.all_functions)
         self.popupMenu.grid(row = 2, column =1)
 
         # define a callback with write permission to self.tkvar
@@ -76,9 +78,9 @@ class MainApplication(tk.Frame):
 
     # on change dropdown value
     def on_change_dropdown(self, *args):
-        self.img_path, args = controller.all_functions[self.tkvar.get()][1:3] # [1:3] slices elements at indices 1 and 2
+        self.img_path, args = _controller.all_functions[self.tkvar.get()][1:3] # [1:3] slices elements at indices 1 and 2
         if self.img_path is None:
-            self.img_path = controller.default_doc
+            self.img_path = _controller.default_doc
         self.img = Image.open(self.img_path)
 
         #multiple image size by zoom
@@ -90,7 +92,7 @@ class MainApplication(tk.Frame):
 
         self.input_description.configure(text=f"{self.default_input_desc} Expected args: {', '.join(args)}")
 
-        self.img_path = controller.all_functions[self.tkvar.get()][1]
+        self.img_path = _controller.all_functions[self.tkvar.get()][1]
 
         self.res.grid_forget()
 
@@ -122,7 +124,7 @@ class MainApplication(tk.Frame):
         self.function_name = self.tkvar.get()
         
         try:
-            self.user_in, args, function = controller.parse_input(self.function_name, unformatted_input)
+            self.user_in, args, function = _controller.parse_input(self.function_name, unformatted_input)
         except TypeError:
             self.res.config(text=f"Expected integer inputs, please try again", fg='red')
             return
@@ -131,23 +133,23 @@ class MainApplication(tk.Frame):
                 s = '''For a kth degree LHCCRR, need k base cases.\nSeparate coefficients and base cases with a semicolon, i.e. "2,3;3,4"'''
             else:
                 args = unformatted_input.split(',')
-                s = controller.build_error_string(controller.functions_with_int_parameters[self.tkvar.get()], len(args))
+                s = _controller.build_error_string(_controller.functions_with_int_parameters[self.tkvar.get()], len(args))
             self.res.config(text=s, fg='red')
             self.res.grid(row=8,column=1)
             self.reset_gui()
             return
         
-        if self.function_name in controller.functions_with_int_parameters:
+        if self.function_name in _controller.functions_with_int_parameters:
             args = [*args]
         else:
             if self.function_name == 'solve LHCCRR':
                 args = [self.user_in[0], self.user_in[1]]
-            elif self.function_name in controller.functions_with_list_parameters:
+            elif self.function_name in _controller.functions_with_list_parameters:
                 args = [self.user_in]
             else:
                 args = [self.user_in[0]]
 
-        self.process = mp.Process(target=controller.run, args=(self.queue, function, args, time.time()))
+        self.process = mp.Process(target=_controller.run, args=(self.queue, function, args, time.time()))
         self.process.start()
 
         self.master.after(100, self.process_queue)
@@ -168,7 +170,7 @@ class MainApplication(tk.Frame):
                     self.process.close()
                 s = "Computation cancelled"
             else:
-                s = controller.build_output_string(self.user_in, self.function_name, result, t)
+                s = _controller.build_output_string(self.user_in, self.function_name, result, t)
             self.res.config(text=s, fg='blue')
             self.prog_bar.stop()
             self.prog_bar.grid_forget()

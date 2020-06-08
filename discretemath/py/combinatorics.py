@@ -1,3 +1,9 @@
+'''
+Provide functions to count combinations with and without repetition, permutations
+    with and without repetition, generate permutations of a string, and generate
+    all bit strings of length n.
+'''
+
 import math
 
 comb_no_rep_doc = 'docs/comb_no_rep_doc.png'

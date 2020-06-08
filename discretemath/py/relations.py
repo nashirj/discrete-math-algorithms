@@ -1,3 +1,7 @@
+'''
+Count binary relations on an n element set.
+'''
+
 import time
 from . import bell, sets, combinatorics
 

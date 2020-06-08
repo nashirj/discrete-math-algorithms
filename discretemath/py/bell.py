@@ -1,3 +1,8 @@
+'''
+Compute the nth Bell number (https://en.wikipedia.org/wiki/Bell_number), i.e.
+    the number of possible partitions of a set of size n.
+'''
+
 from . import combinatorics
 import time
 

@@ -1,9 +1,13 @@
+'''
+Compute the nth Catalan number (https://en.wikipedia.org/wiki/Catalan_number), i.e.
+    one of many recurisvely-defined objects, among them, the number of ways to form
+    a valid set of matched parentheses, e.g. ()(), ()((())()), and not )( or (()(.
+'''
+
 import time
 from . import combinatorics
 
-
 catalan_doc = 'docs/catalan_doc.png'
-
 
 def catalan_recursive(n):
     if n < 0:
