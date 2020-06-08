@@ -1,6 +1,8 @@
-from py_modules import sets
-from c_modules import csets
+from discretemath.py import sets
+import csets
 import time
+
+import sys
 
 def compare_run_times(functions, args, print_res=True):
     for function in functions:
@@ -12,12 +14,13 @@ def compare_run_times(functions, args, print_res=True):
         print(f"Function {function.__name__} took {t1-t0} seconds to run")
 
 def main():
-    arg = [i+1 for i in range(4)]
+    n = int(sys.argv[1])
+    print(f"Testing power set for {n} elements...")
+    arg = [i+1 for i in range(n)]
     # functions = [sets.generate_power_set, sets.generate_cartesian_product]
     print("Power set: ")
-    compare_run_times([sets.generate_power_set, csets.generate_pset], arg)
-    print("\nCartesian product: ")
-    compare_run_times([sets.generate_cartesian_product_n_elements, csets.generate_cartesian_product_n_elements], 20000, False)   
+    compare_run_times([sets.generate_power_set, csets.generate_pset], arg, False)
+ 
 
 if __name__ == '__main__':
     main()
