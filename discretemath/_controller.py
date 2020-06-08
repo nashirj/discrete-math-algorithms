@@ -25,7 +25,7 @@ all_functions = {
     'number of equivalence relations' : [relations.count_equivalence_relations, relations.count_equiv_rel_doc],
     'generate power set' : [sets.generate_power_set, sets.gen_pset_doc],
     'generate cartesian product' : [sets.generate_cartesian_product, sets.gen_cart_prod_doc],
-    'solve LHCCRR' : [recurrence.solve_lin_recurrence_relation, None]
+    'solve LHCCRR' : [recurrence.solve_lin_recurrence_relation, recurrence.solve_lhccrr_doc]
 }
 
 default_doc = 'docs/default.png'

@@ -110,7 +110,16 @@ This function can be called with either one or two sets. If one set $A$ is passe
 
 \section{Recurrence}
 \subsection{Solve linear homogeneous recurrence relations with constant coefficients (LHCCRRs)}
-TODO
+A linear homogeneous recurrence relation with constant coefficients (LHCCRR) of degree $k$ is a recurrence relation of the form\\
+\centerline{$a_n = c_1a_{n-1} +c_2a_{n-2} + \dots +c_ka_{n-k}$}\\
+where $c_1$, $c_2$, $\dots$, $c_k \in R$ and $c_k \neq 0$. The \emph{characteristic equation} (1) is\\
+\centerline{$r_k - c_1r_{k-1} -c_2r_{k-2} - \dots c_k = 0$}\\
+Suppose that (1) has $t$ distinct roots $r_1, r_2, \dots, r_t$ with multiplicities $m_1, m_2, \dots, m_t$, respectively, so that $m_i \ge 1$ for $i = 1, 2, \dots, t$ and $m_1 + m_2 + \dots + m_t = k$. Then a sequence $a_n$ is a solution of the recurrence relation if and only if
+\begin{align*}
+a_n =& (\alpha_{1,0} +\alpha_{1,1}n + \dots + \alpha_{1,m_1-1}n^{m_1-1})r_1^n\\
+&+(\alpha_{2,0} +\alpha_{2,1}n + \dots + \alpha_{2,m_2-1}n^{m_2-1})r_2^n\\&+\dots+ (\alpha_{t,0} +\alpha_{t,1}n + \dots + \alpha_{t,m_t-1}n^{m_t-1})r_t^n
+\end{align*}for $n = 0, 1, 2,\dots$, where $\alpha{i,j}$ are constants for $1 \le i \le t$ and $0 \le j \le m_i-1$.
+(This implementation only solves recurrence relations with non-complex roots.)
 
 \section{Isomorphisms}
 maybe total orders?
