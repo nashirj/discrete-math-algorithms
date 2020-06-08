@@ -3,6 +3,7 @@ Provide operations on sets, including generation of power set and cartesian prod
     given a list of elements and the cartesian product of an n element set.
 '''
 
+gen_pset_doc = 'docs/gen_pset_doc.png'
 def generate_power_set(elements):
     power_set = []
     for counter in range(2**(len(elements))):
@@ -16,12 +17,14 @@ def generate_power_set(elements):
 
     return power_set
 
-
-def generate_cartesian_product(elements):
+gen_cart_prod_doc = 'docs/gen_cart_prod_doc.png'
+def generate_cartesian_product(set1, set2=None):
     res = []
-    for i in range(len(elements)):
-        for j in range(len(elements)):
-            res.append((elements[i], elements[j]))
+    if not set2:
+        set2 = set1.copy()
+    for i in range(len(set1)):
+        for j in range(len(set2)):
+            res.append((set1[i], set2[j]))
 
     return res
 

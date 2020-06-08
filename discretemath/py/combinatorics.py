@@ -47,6 +47,7 @@ def _generate_permutations(n, s, pos, strs, char_set, repetition_allowed):
         _generate_permutations(n, s, pos+1, strs, char_set, repetition_allowed)
         char_set[i] = s[pos]
 
+gen_perm_doc = 'docs/gen_perm_doc.png'
 def generate_permutations(s):
     strs = []
     _generate_permutations(len(s), list(s), 0, strs, list(s), False)
@@ -58,6 +59,7 @@ def generate_permutations(s):
 
     return strs
     
+gen_bstrings_doc = 'docs/gen_bstrings_doc.png'
 def generate_bit_strings_of_length_n(n):
     strs = []
     s = ['0']*n

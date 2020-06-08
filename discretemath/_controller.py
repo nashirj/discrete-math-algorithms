@@ -15,16 +15,16 @@ all_functions = {
     'n pick k' : [combinatorics.n_pick_k, combinatorics.perm_no_rep_doc],
     'n choose k repetition allowed' : [combinatorics.n_choose_k_repetition_allowed, combinatorics.comb_w_rep_doc],
     'n pick k repetition allowed' : [combinatorics.n_pick_k_repetition_allowed, combinatorics.perm_w_rep_doc],
-    'generate permutations of a string' : [combinatorics.generate_permutations, None],
-    'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, None],
+    'generate permutations of a string' : [combinatorics.generate_permutations, combinatorics.gen_perm_doc],
+    'generate all bit strings of length n' : [combinatorics.generate_bit_strings_of_length_n, combinatorics.gen_bstrings_doc],
     'number of transitive relations' : [relations.count_transitive_relations, relations.count_trans_doc],
     'number of relations' : [relations.count_relations, relations.count_rel_doc],
     'number of reflexive/irreflexive relations' : [relations.count_reflexive_relations, relations.count_refl_rel_doc],
     'number of symmetric relations' : [relations.count_symmetric_relations, relations.count_sym_rel_doc],
     'number of antisymmetric relations' : [relations.count_antisymmetric_relations, relations.count_antisym_rel_doc],
     'number of equivalence relations' : [relations.count_equivalence_relations, relations.count_equiv_rel_doc],
-    'generate power set' : [sets.generate_power_set, None],
-    'generate cartesian product' : [sets.generate_cartesian_product, None],
+    'generate power set' : [sets.generate_power_set, sets.gen_pset_doc],
+    'generate cartesian product' : [sets.generate_cartesian_product, sets.gen_cart_prod_doc],
     'solve LHCCRR' : [recurrence.solve_lin_recurrence_relation, None]
 }
 
@@ -84,7 +84,7 @@ def build_output_string(user_in, function_name, result, time):
         else:
             result = ', '.join(result)
     
-    if function_name == 'solve LHCCRR':
+    if function_name == 'solve LHCCRR' or function_name == 'generate cartesian product':
         user_in[0] = str(user_in[0])
         user_in[1] = str(user_in[1])
     out1 = f"For input{'s' if len(user_in) != 1 else ''} {', '.join(user_in)}, {function_name} is"
@@ -116,6 +116,15 @@ def parse_input(function_name, unformatted_input):
         if len(coefficients) != len(base_cases):
             raise ValueError()
         user_in = [coefficients, base_cases]
+    elif function_name == 'generate cartesian product':
+        set1, set2 = None, None
+        if ';' in unformatted_input:
+            l = unformatted_input.split(';')
+            set1 = [arg.strip() for arg in l[0].split(',')]
+            set2 = [arg.strip() for arg in l[1].split(',')]
+        else:
+            set1 = [arg.strip() for arg in unformatted_input.split(',')]
+        user_in = [set1, set2]
     else:
         user_in = [arg.strip() for arg in unformatted_input.split(',')]
 

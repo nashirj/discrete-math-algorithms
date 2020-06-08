@@ -143,7 +143,7 @@ class MainApplication(tk.Frame):
         if self.function_name in _controller.functions_with_int_parameters:
             args = [*args]
         else:
-            if self.function_name == 'solve LHCCRR':
+            if self.function_name == 'solve LHCCRR' or self.function_name == 'generate cartesian product':
                 args = [self.user_in[0], self.user_in[1]]
             elif self.function_name in _controller.functions_with_list_parameters:
                 args = [self.user_in]
@@ -167,9 +167,11 @@ class MainApplication(tk.Frame):
                 if self.py_version_gte_3_7:
                     self.process.close()
                 s = "Computation cancelled"
+                self.res.config(fg='red')
             else:
                 s = _controller.build_output_string(self.user_in, self.function_name, result, t)
-            self.res.config(text=s, fg='red')
+                self.res.config(fg='blue')
+            self.res.config(text=s)
             self.res.grid(row=8,column=1)
             self.prog_bar.stop()
             self.prog_bar.grid_forget()
