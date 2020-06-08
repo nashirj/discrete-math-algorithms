@@ -26,14 +26,12 @@ class MainApplication(tk.Frame):
         self.rowconfigure(0, weight = 1)
         self.pack(pady = 100, padx = 100)
 
-        # Create a Tkinter variable
-        self.tkvar = tk.StringVar(self.parent)
-
-        # set the default option
-        self.tkvar.set('------')
-
         tk.Label(self, text="Choose something to compute").grid(row = 1, column = 1)
-        
+
+        # variable to be used in dropdown for function selection
+        self.tkvar = tk.StringVar(self.parent)
+        self.tkvar.set('------') # set the default option
+
         self.popupMenu = tk.OptionMenu(self, self.tkvar, *_controller.all_functions)
         self.popupMenu.grid(row = 2, column =1)
 
@@ -63,6 +61,7 @@ class MainApplication(tk.Frame):
 
         self.res = tk.Label(self, text="", wraplength=500, fg='blue')
         self.res.grid(row=8,column=1)
+        self.res.grid_forget() # only show res label when there is a result
 
         self.img_path = None
         self.img = None
@@ -83,7 +82,7 @@ class MainApplication(tk.Frame):
             self.img_path = _controller.default_doc
         self.img = Image.open(self.img_path)
 
-        #multiple image size by zoom
+        # multiply image size by zoom
         pixels_x, pixels_y = tuple([int(self.img_zoom * x)  for x in self.img.size])
 
         self.img = ImageTk.PhotoImage(self.img.resize((pixels_x, pixels_y)))
@@ -106,6 +105,7 @@ class MainApplication(tk.Frame):
     def on_click_cancel(self):
         self.queue.put(("interrupt",0))
         self.res.config(text="Computation cancelled", fg='red')
+        self.res.grid(row=8,column=1)
         self.reset_gui()
 
     def on_click_compute(self):
@@ -127,6 +127,7 @@ class MainApplication(tk.Frame):
             self.user_in, args, function = _controller.parse_input(self.function_name, unformatted_input)
         except TypeError:
             self.res.config(text=f"Expected integer inputs, please try again", fg='red')
+            self.res.grid(row=8,column=1)
             return
         except ValueError:
             if self.function_name == 'solve LHCCRR':
@@ -157,12 +158,9 @@ class MainApplication(tk.Frame):
     def process_queue(self):
         try:
             result, t = self.queue.get(0)
-            self.res.grid(row=8,column=1)
             if not result:
                 if self.function_name == 'solve LHCCRR':
                     s = '''No implementation for complex roots of LHCCRR\nNo implementation for higher order solutions with repeated roots'''
-                else:
-                    s = "This should not happen :o"
             elif result == "interrupt":
                 self.process.terminate()
                 time.sleep(0.1)
@@ -171,7 +169,8 @@ class MainApplication(tk.Frame):
                 s = "Computation cancelled"
             else:
                 s = _controller.build_output_string(self.user_in, self.function_name, result, t)
-            self.res.config(text=s, fg='blue')
+            self.res.config(text=s, fg='red')
+            self.res.grid(row=8,column=1)
             self.prog_bar.stop()
             self.prog_bar.grid_forget()
             self.compute_B.config(state=tk.NORMAL)
