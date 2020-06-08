@@ -11,21 +11,10 @@ static PyObject* _gen_pset_from_c_arr(uint* set, uint size) {
         uint subset_size = 0;
         uint n = i;
         // Unrolled the loop since I'm not sure how smart the optimizer is
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
-        n >>= (uint) 1;
-        subset_size += n & (uint) 1;
+        while (n) {
+            subset_size += n & (uint) 1;
+            n >>= (uint) 1;
+        }
 
 
         PyObject* subset = PyList_New(subset_size);
