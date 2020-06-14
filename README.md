@@ -4,8 +4,6 @@
 - [x] Bell numbers
 - [x] Catalan numbers
 - [x] Fibonacci sequence
-- [ ] Stirling numbers of the first kind
-- [ ] Stirling numbers of the second kind
 
 
 ### Permutations and Combinations
@@ -35,5 +33,4 @@
 
 ### Misc
 - [x] Automatically solve recurrence relations with constant coefficients
-- [ ] Implement GUI
-- [ ] Print Pascal's triangle
+- [x] Implement GUI
