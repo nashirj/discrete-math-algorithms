@@ -15,3 +15,7 @@ cmake-build-debug/
 
 # mac files
 .DS_Store
+
+# build files
+dist/
+*.spec

@@ -182,6 +182,9 @@ class MainApplication(tk.Frame):
             self.master.after(100, self.process_queue)
 
 if __name__ == '__main__':
+    # this line stops a new instance of program being spawned every second lol
+    multiprocessing.freeze_support()
+
     # Create top level GUI
     top = tk.Tk()
     top.geometry('{}x{}+0+0'.format(*top.maxsize()))
