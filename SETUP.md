@@ -1,5 +1,22 @@
 # SETUP
-## Windows:
+## Mac (tested on Catalina 10.15.4):
+- install [homebrew](https://brew.sh/)
+- install python3:
+	- open terminal
+	- `$ brew install python3`
+- test python (see windows instructions)
+- install and test git (see windows instructions)
+- download and run project:
+	- open terminal
+	- `$ cd Documents`
+	- `$ git clone https://github.com/nashirj/discrete-math-algorithms`
+	- `$ cd discrete-math-algorithms`
+	- `$ pip3 install -r requirements.txt`
+	- `$ python3 discretemath/view.py`
+
+
+
+## Windows (tested on Windows 10):
 - install python:
 	- open powershell
 	- `$ python`
@@ -26,25 +43,10 @@
 	- `$ git clone https://github.com/nashirj/discrete-math-algorithms`
 	- `$ cd discrete-math-algorithms`
 	- `$ pip3 install -r requirements.txt`
-	- `$ python discretemath\view.py`
-
-## OSX:
-- install [homebrew](https://brew.sh/)
-- install python3:
-	- open terminal
-	- `$ brew install python3`
-- test python (see windows instructions)
-- install and test git (see windows instructions)
-- download and run project:
-	- open terminal
-	- `$ cd Documents`
-	- `$ git clone https://github.com/nashirj/discrete-math-algorithms`
-	- `$ cd discrete-math-algorithms`
-	- `$ pip3 install -r requirements.txt`
-	- `$ python discretemath/view.py`
+	- `$ python3 discretemath\view.py`
 
 
-## Linux:
+## Linux (tested on Ubuntu 18.04):
 - test python3 (see windows instructions)
 - install pip3 (note, it usually comes default with Python): `$ sudo apt-get install python3-pip`
 - install tkinter (if needed): `$ sudo apt-get install python3-tk`
@@ -54,7 +56,7 @@
 	- `$ git clone https://github.com/nashirj/discrete-math-algorithms`
 	- `$ cd discrete-math-algorithms`
 	- `$ pip3 install -r requirements.txt`
-	- `$ python discretemath/view.py`
+	- `$ python3 discretemath/view.py`
 
 
 
