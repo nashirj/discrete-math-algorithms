@@ -1,36 +1,30 @@
-# Final Project for Math 10, Spring 2020 taught by Kevin Carlson
-## TODO
-### Recurrence Relations and Dynamic Programming (each of these has a DP implementation)
-- [x] Bell numbers
-- [x] Catalan numbers
-- [x] Fibonacci sequence
+# discretemath
 
+`discretemath` is a Python library that implements various algorithms and processes from discrete math.
 
-### Permutations and Combinations
-- [x] N choose k
-- [x] N pick k
-- [x] Permutations with repetition
-- [x] Combinations with repetition
-- [x] Generate all bit strings of length n
-- [x] Generate all permutations of a string
+## Installation
 
+See the instructions in [SETUP.md](https://github.com/nashirj/discrete-math-algorithms/blob/master/SETUP.md) for installing discretemath.
 
-### Set operations
-- [x] Generate powerset of an n element set
-- [x] Generate cartesian product of an n element set
+## Usage
 
+```python
+from discretemath.py import sets
+from discretemath.py import fib
 
-### Counting
-- [x] Number of relations
-- [x] Number of reflexive relations
-- [x] Number of symmetric relations
-- [x] Number of antisymmetric relations
-- [x] Number of transitive relations
-- [x] Number of equivalence relations (bell numbers)
-- [ ] Number of s_0 avoidant strings of length n (See this [stack overflow post](https://softwareengineering.stackexchange.com/questions/273017/number-of-strings-containing-a-specific-substring))
-- [ ] Number of s_0 inclusive strings of length n
+pset = sets.generate_power_set([1, 'blah']) #  [[], [1], ['blah'], [1, 'blah']]
 
+print(fib.fibonacci_dp(100)) # 354224848179261915075
+```
 
-### Misc
-- [x] Automatically solve recurrence relations with constant coefficients
-- [x] Implement GUI
+The GUI can be run from the top level directory with the command `python discretemath/view.py` after the instructions in SETUP.md have been followed.
+
+![GUI](https://github.com/nashirj/discrete-math-algorithms/blob/master/misc/gui.png)
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[MIT](https://choosealicense.com/licenses/gpl-3.0/)

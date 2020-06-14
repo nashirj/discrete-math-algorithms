@@ -183,7 +183,7 @@ class MainApplication(tk.Frame):
 
 if __name__ == '__main__':
     # this line stops a new instance of program being spawned every second lol
-    multiprocessing.freeze_support()
+    mp.freeze_support()
 
     # Create top level GUI
     top = tk.Tk()
