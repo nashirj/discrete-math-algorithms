@@ -6,6 +6,3 @@ Provides
         in discrete mathematics
     2. GUI for interactive computation using aforementioned functions
 '''
-
-import _controller
-from py import *
