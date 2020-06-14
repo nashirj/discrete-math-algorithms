@@ -1,37 +1,131 @@
+\RequirePackage{filecontents}
+
 \documentclass{article}
-
-% set font encoding for PDFLaTeX, XeLaTeX, or LuaTeX
-\usepackage{ifxetex,ifluatex,amsmath,amsfonts,amssymb,graphicx}
-\if\ifxetex T\else\ifluatex T\else F\fi\fi T%
-  \usepackage{fontspec}
-\else
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{lmodern}
-\fi
-
-\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+ 
+\title{Discrete Math Algorithms Implementation Writeup}
+\author{Ariel Young, Nashir Janmohamed}
+\date{June 14th, 2020}
+  
+\renewcommand*\contentsname{Summary}
 
 % Nashir's includes
+\usepackage[comma,authoryear]{natbib}
+\usepackage{hyperref}
+
 \usepackage{commath}
+\usepackage{graphicx}
+
+\usepackage[linguistics]{forest}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 % end includes
+
+\begin{document}
 
 \title{Final Project Documentation}
 \author{Nashir Janmohamed}
 \date{Due 11:59 pm, Monday, May 25}
 
-% Enable SageTeX to run SageMath code right inside this LaTeX file.
-% http://doc.sagemath.org/html/en/tutorial/sagetex.html
-% \usepackage{sagetex}
-
-% Enable PythonTeX to run Python – https://ctan.org/pkg/pythontex
-% \usepackage{pythontex}
-
-\begin{document}
 \maketitle
 
+\tableofcontents
 
+\newpage
 \section{Recurrence Relations/Dynamic Programming}
+Recursive algorithms make an exponential number of iterations to solve a problem. The \textit{recursion tree} (a diagram of the tree of recursive calls) \cite{fibtree} grows exponentially with $n$ and does not take advantage of previously solved subproblems. For example when $n=4$, the computation for $f(1)$ is performed three times.
+
+\begin{figure}[h]
+\caption{Fibonacci recursion tree for n = 4}
+\label{fig:fibtree}
+  \centering
+\begin{forest}
+  [f(4)
+    [f(3)
+      [f(2)
+        [f(1)]
+        [f(0)]
+      ]
+      [f(1)]
+    ]
+    [f(2)
+      [f(1)]
+      [f(0)]
+    ]
+  ]
+\end{forest}
+\end{figure}
+
+
+A problem is said to have optimal substructure if an optimal solution can be constructed from optimal solutions of its subproblems \cite{clrs}. Recursively defined problems oftentimes have this structure, and an alternative technique called dynamic programming can be used to more efficiently solve them.
+
+Consider the following example \cite{so} using the Fibonacci numbers (see Figure \nameref{subsection:fib} for an explanation of the Fibonacci numbers) for an intuition on how dynamic programming can more efficiently solve a problem with a recursive solution.
+
+A naive recursive implementation to compute the $n$th Fibonacci sequence is as follows
+
+\begin{lstlisting}[language=Python]
+def fib(x):
+    if (x < 2):
+        return 1
+
+    return fib(x-1) + fib(x-2)
+\end{lstlisting}
+
+At each step, 2 recursive calls are made, so the time complexity is O$(2^n)$ (exponential). There are also two calls placed on the stack at each step, so the space complexity is also O$(2^n)$.
+
+The following dynamic programming implementation is iterative (no recursive calls are made), and computes the $n$th fibonacci in linear time, O$(n)$, by building the result from the bottom up. This algorithm also uses O$(n)$ extra space to hold the result of previous computations (which with modification to store fibresult after function results, could be useful if the function is called more than once).
+
+\begin{lstlisting}[language=Python]
+def fib(n):
+    fibresult[0] = 1
+    fibresult[1] = 1
+    for i in range(2, n):
+        fibresult.append(fibresult[i-1] + fibresult[i-2])
+    return fibresult[n]
+\end{lstlisting}
+
+The most efficient implementation is O$(n)$ time and constant space
+
+\begin{lstlisting}[language=Python]
+def fib(int n):
+    a = 1
+    b = 1
+    for i in range(2, n+1):
+        a = a + b;
+        a, b = b, a # swap variables
+    return b
+\end{lstlisting}
+
+For each of the algorithms implemented, a recursive and dynamic programming implementation was created.
+
+\label{section:bell}
 \subsection{Bell numbers}
 The Bell numbers represent the number of ways to count partitions of (or equivalently equivalence relations on) an $n$ element set. The $n$-th bell number is given by the recurrence
 \[B_n = \sum_{k=1}^{n} {n-1 \choose k-1} B_{n-k}\]
@@ -41,14 +135,26 @@ The Catalan numbers form a sequence of natural numbers that occur in various cou
 \[C_{n+1} = \sum_{i=0}^{n}C_iC_{n-1}\]
 for $n \ge 0$.
 
-\noindent Their closed form is given by
-\[{2n \choose n} - {2n \choose n+1 }\]
 \subsection{Fibonacci numbers}
+\label{subsection:fib}
 The Fibonacci numbers, commonly denoted $F_n$, form a sequence such that each number is the sum of the two preceding ones, with $F_0 = 0$, $F_1 = 1$, and the recurrence given by
 \[F_n = F_{n-1}+F_{n-2}\]
 for $n > 1$.
-\subsection{Stirling numbers of the first kind}
-\subsection{Stirling numbers of the second kind}
+
+\subsection{Solve linear homogeneous recurrence relations with constant coefficients (LHCCRRs)}
+A linear homogeneous recurrence relation with constant coefficients (LHCCRR) of degree $k$ is a recurrence relation of the form\\
+\centerline{$a_n = c_1a_{n-1} +c_2a_{n-2} + \dots +c_ka_{n-k}$}\\
+where $c_1$, $c_2$, $\dots$, $c_k \in R$ and $c_k \neq 0$. The \emph{characteristic equation} (1) is\\
+\centerline{$r_k - c_1r_{k-1} -c_2r_{k-2} - \dots c_k = 0$}\\
+Suppose that (1) has $t$ distinct roots $r_1, r_2, \dots, r_t$ with multiplicities $m_1, m_2, \dots, m_t$, respectively, so that $m_i \ge 1$ for $i = 1, 2, \dots, t$ and $m_1 + m_2 + \dots + m_t = k$. Then a sequence $a_n$ is a solution of the recurrence relation if and only if
+\begin{align*}
+a_n =& (\alpha_{1,0} +\alpha_{1,1}n + \dots + \alpha_{1,m_1-1}n^{m_1-1})r_1^n\\
+&+(\alpha_{2,0} +\alpha_{2,1}n + \dots + \alpha_{2,m_2-1}n^{m_2-1})r_2^n\\
+&+\dots+ (\alpha_{t,0} +\alpha_{t,1}n + \dots + \alpha_{t,m_t-1}n^{m_t-1})r_t^n
+\end{align*}
+for $n = 0, 1, 2,\dots$, where $\alpha{i,j}$ are constants for $1 \le i \le t$ and $0 \le j \le m_i-1$.
+(This implementation only solves recurrence relations with non-complex roots.)
+
 
 \section{Permutations and Combinations}
 \subsection{Combinations without repetition}
@@ -95,37 +201,23 @@ A relation $R$ is antisymmetric if for all $(a,b)$ that are in $R$, if $(b,a)$ i
 \[2^n3^{{n \choose 2}} = 2^n3^{\frac{n(n-1)}{2}}\]
 antisymmetric relations on a set with $n$ elements.
 \subsection{\# of equivalence relations}
-A relation $R$ on a set $A$ is an equivalence relation if it is reflexive, symmetric, and transitive. For each $a \in A$, the equivalence class of $a$ is given by $[a] = \{x \mid xRa\}$. The equivalence classes form a partition of $A$, and so the number of equivalence relations on a set $S$ is given by the number of partitions of a set $S$. So, this number is equivalent to the Bell number (number of partitions/equivalence relations for an $n$ element set) which we can compute directly.
+A relation $R$ on a set $A$ is an equivalence relation if it is reflexive, symmetric, and transitive. For each $a \in A$, the equivalence class of $a$ is given by $[a] = \{x \mid xRa\}$. The equivalence classes form a partition of $A$, and so the number of equivalence relations on a set $S$ is given by the number of partitions of a set $S$. So, this is just given by the Bell numbers [see section \ref{section:bell}].
 \[B_n = \sum_{k=1}^{n} {n-1 \choose k-1} B_{n-k}\]
 for $n \ge 0$.
 
 \newpage
 \section{Sets}
 \subsection{Generate power set}
-The power set of a set $S$ is the set of all subsets of $S$, denoted by $\mathcal P(S)$. For each element in $S$, it either is or is not in a subset of $S$, so there are two choices for each element of $S$ in each subset. Thus, there are $2^{\,\abs{S}}$ subsets of $S$.
+The power set of a set $S$ is the set of all subsets of $S$, denoted by $\mathcal P(S)$. For each element in $S$, it either is or is not in a subset of $S$, so there are two choices for each element of $S$ in each subset. Thus, there are $2^{\,\abs{S}}$ subsets of $S$. Alternatively, the inclusion of an element in a subset can be represented by a bitstring of length $\abs{S}$, with a 1 indicating the element is in the subset and a 0 indicating otherwise. This was used as a baseline for the algorithm - all bit strings of length n were generated, and if the $i$th bit was set, the $i$th element was included in the subset.
+
 \subsection{Generate cartesian product}
 The Cartesian product of two sets $A$ and $B$, denoted $A \times B$, is the set of all ordered pairs $(a, b)$ where $a \in A$ and $b \in B$. In terms of set-builder notation, that is
 \[A\times B=\{\,(a,b)\mid a\in A\ {\mbox{ and }}\ b\in B\,\}\]
 This function can be called with either one or two sets. If one set $A$ is passed, then the result will be $A \times A$. If two sets are passed, separate them with a semicolon, i.e. ``1, 2, 3; 4, 5''.
 
-\section{Recurrence}
-\subsection{Solve linear homogeneous recurrence relations with constant coefficients (LHCCRRs)}
-A linear homogeneous recurrence relation with constant coefficients (LHCCRR) of degree $k$ is a recurrence relation of the form\\
-\centerline{$a_n = c_1a_{n-1} +c_2a_{n-2} + \dots +c_ka_{n-k}$}\\
-where $c_1$, $c_2$, $\dots$, $c_k \in R$ and $c_k \neq 0$. The \emph{characteristic equation} (1) is\\
-\centerline{$r_k - c_1r_{k-1} -c_2r_{k-2} - \dots c_k = 0$}\\
-Suppose that (1) has $t$ distinct roots $r_1, r_2, \dots, r_t$ with multiplicities $m_1, m_2, \dots, m_t$, respectively, so that $m_i \ge 1$ for $i = 1, 2, \dots, t$ and $m_1 + m_2 + \dots + m_t = k$. Then a sequence $a_n$ is a solution of the recurrence relation if and only if
-\begin{align*}
-a_n =& (\alpha_{1,0} +\alpha_{1,1}n + \dots + \alpha_{1,m_1-1}n^{m_1-1})r_1^n\\
-&+(\alpha_{2,0} +\alpha_{2,1}n + \dots + \alpha_{2,m_2-1}n^{m_2-1})r_2^n\\&+\dots+ (\alpha_{t,0} +\alpha_{t,1}n + \dots + \alpha_{t,m_t-1}n^{m_t-1})r_t^n
-\end{align*}for $n = 0, 1, 2,\dots$, where $\alpha{i,j}$ are constants for $1 \le i \le t$ and $0 \le j \le m_i-1$.
-(This implementation only solves recurrence relations with non-complex roots.)
+\section{References}
 
-\section{Isomorphisms}
-maybe total orders?
-
-\section{Default}
-No documentation provided.
-
+\bibliographystyle{ieeetr}
+\bibliography{documentation.bib}
 
 \end{document}

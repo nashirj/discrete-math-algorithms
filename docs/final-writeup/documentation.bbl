@@ -1,0 +1,16 @@
+\begin{thebibliography}{1}
+
+\bibitem{fibtree}
+N.~Foster, ``Lecture 20, cs3110 spring 2012, data structures and functional
+  programming,'' April 2012.
+
+\bibitem{clrs}
+T.~H. Cormen, C.~E. Leiserson, R.~L. Rivest, and C.~Stein, {\em Introduction to
+  Algorithms, Third Edition}.
+\newblock The MIT Press, 3rd~ed., 2009.
+
+\bibitem{so}
+T.~(https://stackoverflow.com/users/1131467/andrew tomazos), ``What's the
+  difference between recursion, memoization \& dynamic programming?.''
+
+\end{thebibliography}
