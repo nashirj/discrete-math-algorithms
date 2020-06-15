@@ -1,5 +1,16 @@
 # SETUP
-## Mac (tested on Catalina 10.15.4):
+## Mac (tested on Catalina 10.15.4)
+### option 1 (easy version)
+- Download the folder `DMAlgos-Mac-v0` (inside of `discrete-math-algos/`) to your downloads folder
+- Open the terminal on your computer ([instructions here](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac))
+- Type the following into your terminal
+  - `username@MacBook-Pro ~ % cd Downloads`
+  - `username@MacBook-Pro ~/Downloads % cd DMAlgos-Mac-v0`
+  - `username@MacBook-Pro ~/Downloads/DMAlgos-Mac-v0 % chmod +x RUN.sh`
+  - `username@MacBook-Pro ~/Downloads/DMAlgos-Mac-v0 % ./RUN.sh`
+
+
+### option 2 (more robust version)
 - install [homebrew](https://brew.sh/)
 - install python3:
 	- open terminal
@@ -13,7 +24,6 @@
 	- `$ cd discrete-math-algorithms`
 	- `$ pip3 install -r requirements.txt`
 	- `$ python3 discretemath/view.py`
-
 
 
 ## Windows (tested on Windows 10):
@@ -57,7 +67,6 @@
 	- `$ cd discrete-math-algorithms`
 	- `$ pip3 install -r requirements.txt`
 	- `$ python3 discretemath/view.py`
-
 
 
 ## General usage:
