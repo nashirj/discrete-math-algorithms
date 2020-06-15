@@ -1,0 +1,21 @@
+# python generated files
+__pycache__/
+venv/
+build/
+
+# CLion files
+.idea/
+cmake-build-debug/
+
+# tex files
+*.aux
+*.log
+*.out
+*.synctex.gz
+
+# mac files
+.DS_Store
+
+# build files
+dist/
+*.spec
