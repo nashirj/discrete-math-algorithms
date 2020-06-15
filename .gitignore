@@ -12,6 +12,9 @@ cmake-build-debug/
 *.log
 *.out
 *.synctex.gz
+*.blg
+*.toc
+
 
 # mac files
 .DS_Store
