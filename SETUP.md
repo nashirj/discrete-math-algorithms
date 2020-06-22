@@ -72,9 +72,9 @@
 ## General usage:
 - Run the GUI from the top level directory with the command `python3 discretemath/view.py` (OSX/Linux) or `python3 discretemath\view.py` (Windows)
 - Import specific packages from the `discretemath` module as follows:
-	- `python3
-	- `from discretemath.py import bell
-	- `help(bell)
-	- `bell.bell_dp(10)
-	- `from discretemath.py import recurrence
-	- `recurrence.solve_lin_recurrence_relation([1,1],[0,1]) # this is the fibonacci recurrence
+	- `python3`
+	- `from discretemath.py import bell`
+	- `help(bell)`
+	- `bell.bell_dp(10)`
+	- `from discretemath.py import recurrence`
+	- `recurrence.solve_lin_recurrence_relation([1,1],[0,1]) # this is the fibonacci recurrence`
